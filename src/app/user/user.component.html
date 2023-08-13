@@ -1,0 +1,76 @@
+<div>
+    <div class="container margin-leaves">
+      <!-- top -->
+      <div class="row">
+        <div class="col-12 col-md-8">
+          <h1 class="leaves-top-title">Employees</h1>
+        </div>
+        <div class="col-md-4 d-flex flex-row-reverse leaves-top-button">
+          <button
+            pButton
+            type="button"
+            label="Add user"
+            (click)="addUser()"
+            class="p-button-success"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+  
+    <!-- buttons and leave table-->
+  
+    <div class="leave-table">
+      <div class="box">
+        
+        <div>
+          <div class="row leave-table-info">
+            <!-- <div class="col-12 col-md-2">
+              <label class="label">Department</label>
+            </div>
+            <div class="col-12 col-md-3">
+              <p-dropdown
+              
+                [style]="{ height: '25px' }"
+             
+                placeholder="Select the status"
+                optionLabel="name"
+                [showClear]="false"
+             
+              >
+              </p-dropdown>
+            </div> -->
+            <p-table [value]="usersForCEO" [scrollable]="true" scrollHeight="50vW">
+              <ng-template pTemplate="header" >
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Actions</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Date joined</th>
+                    <th scope="col">Position</th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+                  <tr>
+                    <td >{{rowIndex+1}}</td>
+                    <td >
+
+                      <button  class="btn " type="button" (click)="viewUser(product.id)" ><i class="pi pi-eye" style="font-size: 1.2rem"></i></button>
+                      <button style="margin-left: 2px;"class="btn " type="button" (click)="editUser(product.id)" ><i class="pi pi-user-edit" style="font-size: 1.2rem"></i></button>
+                      <button style="margin-left: 2px;" (click)="deletUser(product.id)" class="btn " type="button"  ><i class="pi pi-trash" style="font-size: 1.2rem"></i></button>
+                      
+                    </td>
+                   
+                    <td >{{product.first_name}}</td>
+                    <td >{{product.starting_date.calendar()}}</td>
+                    <td >{{product.role.name}}</td>
+                  </tr>
+              </ng-template>
+          </p-table>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>

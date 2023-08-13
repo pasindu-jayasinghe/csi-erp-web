@@ -1,0 +1,178 @@
+<nb-layout>
+  <nb-layout-column class="p-0">
+    <div class="wrapper d-flex flex-row flex-grow-1">
+      <div
+        *ngIf="showLeftMenu"
+        class="sidebar d-flex flex-column customSB d-print-none"
+        [ngClass]="{ open: togglemenu || innerWidth > 1280 }"
+      >
+        <div
+          class="sidebar--button selectable"
+          (click)="togglemenu = !togglemenu"
+        >
+          <i class="pi pi-arrow-right" *ngIf="!togglemenu"></i>
+          <i class="pi pi-arrow-left" *ngIf="togglemenu"></i>
+        </div>
+        <div class="sidebar--header">
+         
+          <div class="row mb-2">
+            <div class="col-md-3">
+              <img
+                src="assets/images/climateSILogo.png"
+                height="40px"
+                alt="logo"
+              />
+            </div>
+           
+          </div>
+        </div>
+   
+        <div class="sidebar-items flex-grow-1">
+      
+          <div data-ccs-admin-menu>
+            <div
+         
+              class="sidebar-items--link align-items-start"
+              [routerLink]="['dashboard']"
+              routerLinkActive="selected"
+            >
+              <div class=""></div>
+              Dashboard
+            </div>
+
+
+ 
+
+         
+
+            <div
+            
+              class="sidebar-items--link align-items-start"
+              [routerLink]="['leaves']"
+              routerLinkActive="selected"
+            >
+              <div class=""></div>
+             Leaves
+            </div>
+            <div
+            
+            class="sidebar-items--link align-items-start"
+            [routerLink]="['projects/list']"
+            routerLinkActive="selected"
+          >
+            <div class=""></div>
+           Projects
+          </div>
+          
+          <div class="sidebar-items--link align-items-start" [routerLink]="['projects/task-list']" routerLinkActive="selected">
+            <div class=""></div>
+            Tasks
+          </div>
+
+          <div class="sidebar-items--link align-items-start" [routerLink]="['projects/work-plan-list']" routerLinkActive="selected">
+            <div class=""></div>
+            Daily Progress
+          </div>
+          <div class="sidebar-items--link align-items-start" [routerLink]="['projects/next-wp-list']" routerLinkActive="selected">
+            <div class=""></div>
+             Work Plan
+          </div>
+          <div *ngIf="isCEO" class="sidebar-items--link align-items-start" [routerLink]="['user/list']" routerLinkActive="selected">
+            <div class=""></div>
+           Employees
+          </div>
+          <div  class="sidebar-items--link align-items-start" [routerLink]="['user/view']" [queryParams]="{id: userId}" routerLinkActive="selected">
+            <div class=""></div>
+           My Details
+          </div>
+          <div  *ngIf="isCEO" class="sidebar-items--link align-items-start" [routerLink]="['audit']"  routerLinkActive="selected">
+            <div class=""></div>
+          Activity log
+          </div>
+
+
+   
+     
+          </div>
+        </div>
+
+        <div class="sidebar--footer">
+          <div></div>
+          <div></div>
+          <div></div>
+          <!-- <div class="sidebar-items--link" [routerLink]="['/settings']" routerLinkActive="router-link-active">
+            <i class="pi pi-cog"></i> Settings
+          </div> -->
+          <div class="ml-2 mr-2">
+            <!-- <p-dropdown [disabled]="true" [options]="userRoles" [(ngModel)]="userRole" placeholder="Select a City"
+              optionLabel="name">
+            </p-dropdown> -->
+          </div>
+
+          <!-- <div class="sidebar-items--link" (click)="logout()" [routerLink]="['/login']" routerLinkActive="router-link-active">
+            <i class="pi pi-sign-out"></i> Logout
+          </div> -->
+        </div>
+      </div>
+      <div class="main d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-column justify-content-end">
+          <div class="p-text-nowrap p-text-truncate m-0 pr-2 text-right">
+            <!-- <small><b>{{useremail}}</b></small> -->
+            <div
+              class="top-panel d-flex justify-content-end"
+              *ngIf="showTopMenu"
+            >
+              <div class="d-flex mt-10 mr-20">
+                <span class="mr-10">
+                  <img
+                    style="
+                      position: relative;
+                      top: 50%;
+                      transform: translateY(-50%);
+                    "
+                    src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                    alt="mdo"
+                    width="45"
+                    height="45"
+                    class="rounded-circle"
+                /></span>
+
+                <span></span>
+                <span>
+                  <div class="username">{{ fname }} {{ lname }}</div>
+                  <div class="userrole">{{ urole }}</div>
+                 
+                </span>
+
+                <span>
+                  <button
+                  class="btn btn-block btn-primary ml-10 mt-10 text-uppercase"
+                  type="submit"
+                  (click)="logout()"
+                >
+                  Logout
+                </button>
+                </span>
+
+                
+              </div>
+            </div>
+          </div>
+          <div class="p-text-nowrap p-text-truncate m-0 mb-1 pr-2 text-right">
+            <!-- <small><b>{{userInstitution}}</b></small> -->
+          </div>
+        </div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <!-- 
+    <div  class="d-flex flex-column flex-grow-1"  *ngIf="hideSidebar">
+      <router-outlet></router-outlet>
+    </div> -->
+  </nb-layout-column>
+
+  <nb-layout-footer fixed>
+    <!-- Insert footer here -->
+  </nb-layout-footer>
+</nb-layout>
+

@@ -1,0 +1,6 @@
+export enum ACCEPTANCE_STATUS {
+    ACCEPTED = "ACCEPTED",
+    UNSATISFIED = "UNSATISFIED",
+    DELAYED = "DELAYED",
+  
+  }

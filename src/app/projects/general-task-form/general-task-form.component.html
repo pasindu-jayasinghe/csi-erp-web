@@ -1,0 +1,68 @@
+
+
+<form #fData="ngForm" (ngSubmit)="save(fData)">
+
+
+    <div class="card mt-3">
+        <div class="p-grid p-fluid col-sm-12">
+
+
+            <div class="row p-2">
+
+                <div class="col-12 col-md-3">
+                    <div class="p-field">
+                        <label for="institute">Task</label>
+                        <input type="text" maxlength="50" [(ngModel)]="gTask.name"
+                            placeholder="Enter Task Name" name="planned_MD" field="contatname" class="p-inputtext" required />
+                            <p class="info-message text-danger" *ngIf="!gTask.name && (fData.submitted)">
+                                This is a mandatory field
+                            </p>
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="p-field">
+                        <label for="institute">Spent MDs </label>
+                        <input type="number" maxlength="50" [(ngModel)]="gTask.g_MD"
+                            placeholder="Enter Spent MDs" name="actual_MD" field="contatname" class="p-inputtext" required />
+                            <p class="info-message text-danger" *ngIf="!gTask.g_MD && (fData.submitted)">
+                                This is a mandatory field
+                            </p>
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="p-field">
+                        <label for="institute">Date </label>
+                        <p-calendar name="planned_end_date" [(ngModel)]="date" appendTo="body"  placeholder="Enter Date">
+                        </p-calendar>
+
+
+                        <p class="info-message text-danger" *ngIf="!date && (fData.submitted)">
+                            This is a mandatory field
+                        </p>
+                    </div>
+                </div>
+
+          
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mt-3">
+
+        <div class="row p-2">
+            <div class="col-12 col-md-6">
+                <button type="submit" class="align-self-end btn btn-md btn-block btn-primary"
+                    style="margin-top: auto;">Save</button>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</form>

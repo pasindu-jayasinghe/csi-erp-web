@@ -1,0 +1,60 @@
+<div class="container">
+    <h4 class="mt-5">{{ptext}}</h4>
+    <div class="p-grid p-fluid card">
+        <div class="row p-2">
+
+            <p></p>
+            <div class="col-md-3">
+                <p-dropdown [options]="departments" placeholder="" optionLabel="name" [showClear]="true"></p-dropdown>
+            </div>
+
+            <div class="col-md-2" *ngIf="userRole=='CEO'">
+
+                <button pButton type="button" label="Add Project" (click)="new()"></button>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid p-fluid card">
+
+
+
+        <div class="p-grid" style="display: flex;flex-wrap: wrap; margin: 5px;" *ngIf="pVisible">
+            <div class="p-col" *ngFor="let project of projects">
+
+                <p-card header={{project.name}} [style]="{width: '360px','margin':'1em'}" styleClass="p-card-shadow">
+
+                    <ng-template pTemplate="header">
+                        <img alt="Card" src="https://primefaces.org/cdn/primeng/images/usercard.png">
+                        <!-- <img alt="Card" src='http://localhost:7070/jkj21058.png'> -->
+
+                    </ng-template>
+
+                    <p>Client: {{project.client}} </p>
+                    <p>Project Duration: {{project.duration}}</p>
+                    <p>Estimated MDs: {{project.planned_MD}} </p>
+                    <p>Actual MDs: {{project.used_MD ? project.used_MD :"0"}}</p>
+                    <h2>{{project.progress ? project.progress : "0"}}%</h2>
+
+                    <button *ngIf="viewable" (click)="view(project.id)" pButton pRipple type="button" icon="pi pi-eye"
+                        class="p-button " style="margin-left:5px;margin-top:2px;"></button>
+
+                    <button 
+                        *ngIf="editable && userRole == 'CEO' ||(project.teamLeadIds !== null && project.teamLeadIds.includes(userId.toString()))" 
+                        (click)="edit(project.id)" pButton pRipple
+                        type="button" icon="pi pi-pencil" class="p-button"
+                        style="margin-left:5px;margin-top:2px;">
+                    </button>
+
+                    <button *ngIf="editable && userRole == 'CEO'" (click)="import(project.id)" pButton pRipple 
+                        type="button" icon="pi pi-sync" class="p-button"
+                        style="margin-left:5px;margin-top:2px;"></button>
+
+
+                </p-card>
+            </div>
+        </div>
+        <br>
+
+    </div>
+
+</div>

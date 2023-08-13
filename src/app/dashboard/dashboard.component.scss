@@ -1,0 +1,129 @@
+$white-color: #ffffff;
+
+.leave-table .box {
+    margin: 20px;
+    background: $white-color;
+    border-radius: 15px;
+    padding-bottom: 5%;
+
+
+}
+
+.leave-table {
+    margin-top: 20px;
+}
+
+.table tr td {
+    padding: 5px 5px 5px;
+    border-bottom-width: 0px !important;
+}
+
+.table tr th {
+    padding-top: 10px;
+    border-radius: 15px;
+    background: $white-color;
+    font-size: 18px;
+}
+
+.leaves-heading {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 150%;
+    color: black;
+    margin: 25px;
+}
+
+.progress-bar-title {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 150%;
+    color: #000000;
+}
+
+.progress-bar-project {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 150%;
+    color: #0500FF;
+}
+
+.progress-bar-task {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 550;
+    font-size: 16px;
+    line-height: 150%;
+    color: #595959;
+}
+
+.progress-bar-percentage {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 150%;
+    color: #108D05;
+}
+
+.p-calendar.p-datepicker {
+    border: 0px solid #ced4da !important;
+}
+
+.dashboard-table .box {
+    margin: 20px;
+    background: $white-color;
+    border-radius: 15px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25), 0px -2px 5px rgba(0, 0, 0, 0.25)
+}
+
+.shadow-box {
+    background: #FFFFFF;
+    border: 1px solid #ADADAD;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.shadow-box-outer {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+}
+
+.employee-dashboard-title {
+    margin-top: 10px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 150%;
+    color: #000000;
+}
+
+.name-leave {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: #000000;
+}
+.name-leave-type {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 150%;
+    color: #4F4F4F;
+}
+li {
+    display: inline-block;
+  }
+.scrolling{
+    
+    overflow: scroll;
+    height:420px;
+}

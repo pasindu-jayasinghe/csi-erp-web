@@ -1,0 +1,82 @@
+
+
+<form #fData="ngForm" (ngSubmit)="update(fData)">
+
+
+
+    <div class="card mt-3">
+        <div class="p-grid p-fluid col-sm-12">
+
+
+            <div class="row p-2">
+
+                <div class="col-12 col-md-3">
+                    <div class="p-field">
+                        <label for="institute">From (Date)</label>
+                        <p-calendar 
+                        name="nw-task-sdate"
+                        [showTime]="true"   
+                        [showClear]="true"          
+                        [touchUI]="true"
+                        [(ngModel)]="fromDate"
+                        [required]="true"
+                        appendTo="body">
+                       </p-calendar>
+                        <p class="info-message text-danger" *ngIf="!fromDate && (fData.submitted)">
+                            This is a mandatory field
+                        </p> 
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="p-field">
+                        <label for="institute">To (Date)</label>
+                        <p-calendar 
+                        name="nw-task-edate"
+                        [showTime]="true"   
+                        [showClear]="true" 
+                        [touchUI]="true"
+                        [(ngModel)]="toDate"
+                        [required]="true"
+                        appendTo="body">
+                       </p-calendar>
+                        <p class="info-message text-danger" *ngIf="!toDate && (fData.submitted)">
+                            This is a mandatory field
+                        </p> 
+                    </div>
+                </div>
+
+         
+                <div class="col-12 col-md-6">
+                    <div class="p-field">
+                        <label for="institute">I will spend for this Task (MDs) </label>
+                        <input type="number" maxlength="50" 
+                            placeholder="Enter MDs you planning to spend" name="comment" field="contatname"  [(ngModel)]="weekMDs"
+                            class="p-inputtext" required />
+
+                        <p class="info-message text-danger" *ngIf="!weekMDs && (fData.submitted)">
+                            This is a mandatory field
+                        </p>
+                    </div>
+                </div>
+
+          
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mt-3">
+
+        <div class="row p-2">
+            <div class="col-12 col-md-6">
+                <button type="submit" class="align-self-end btn btn-md btn-block btn-primary"
+                    style="margin-top: auto;">Save</button>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</form>

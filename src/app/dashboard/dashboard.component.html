@@ -1,0 +1,389 @@
+<div class="dashboard-table">
+    <div>
+        <div class="row gx-5 box border border-1 ">
+            <div class="container px-4 mt-3">
+
+                <!-- <div class="row gx-5 "> -->
+                <div class="row m-2">
+
+                    <!-- <div class="col-12 col-md-6 ">
+                        <div class="p-3">
+                            <p-calendar [(ngModel)]="calender1" [inline]="true" [showWeek]="true"
+                                styleClass="shadow-box"></p-calendar>
+                        </div>
+                    </div> -->
+                    <div class="col-12 col-md-6">
+                        <h2 class="progress-bar-title">All Projects</h2>
+                        <div class="p-3 shadow-box mb-3" *ngFor="let project of projects">
+                            <div class="row ">
+                                <div class="col-6">
+                                    <h5 class="progress-bar-project">{{project.name}}</h5>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="progress-bar-percentage">{{project.progress ? project.progress: "0" }}%
+                                        completed</h6>
+                                    <p-progressBar [value]="project.progress" [showValue]="false"></p-progressBar>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!----->
+                <div class="row m-2">
+                    <div class="col box border border-1 ">
+                        <h2 class="employee-dashboard-title">Project Summaary</h2>
+                        <p-table [value]="projects" [scrollable]="true">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Duration</th>
+                                    <th scope="col">Estimated MDS</th>
+                                    <th scope="col">Used MDs</th>
+                                    <th scope="col">Progress</th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-project let-rowIndex="rowIndex">
+                                <tr>
+                                    <td>{{rowIndex+1}}</td>
+
+                                    <td>{{project.name}}</td>
+                                    <td>{{project.duration}}</td>
+                                    <td>{{project.planned_MD}}</td>
+                                    <td>{{project.used_MD ? project.used_MD :"0"}}</td>
+                                    <td>{{project.progress ? project.progress : "0"}}%</td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+
+                    </div>
+                </div>
+
+                <!----->
+
+
+
+            </div>
+
+
+        </div>
+
+        <div class="box border border-1" *ngIf="!isCEO">
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    <h3 class="leaves-heading">Leave summary</h3>
+                </div>
+                <div class="col-md-2 offset-md-1  leaves-top-button ">
+
+                    <button pButton type="button" label="Request a leave" (click)="op.toggle($event);showRequestLeave()"
+                        class="p-button-success "></button>
+
+
+
+                    <p-overlayPanel #op [showCloseIcon]="true" [dismissable]="false" (onHide)="removeRequestLeave()"
+                        [style]="{ width: '50vw', height: '25vh' }">
+                        <ng-template pTemplate>
+                            <form #userPost="ngForm" (ngSubmit)="onSubmit(userPost,op)">
+                                <div class="row">
+                                    <div class="col-12 col-md-7 p-grid p-fluid  leave-form">
+                                        <div>
+                                            <h4>{{ isRequestMode ? "New Leave" : "Leave Details" }}</h4>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12">
+                                                    <label class="col-12 col-md-12" for="Leave Type">Leave Type*</label>
+                                                    <p-dropdown class="col-12 col-md-12" name="leave_type"
+                                                        [options]="leavetypesForRequest" [(ngModel)]="leave_type"
+                                                        placeholder="Select leave type" optionLabel="name"
+                                                        [showClear]="false" (onChange)="onChangeLeaveType()"
+                                                        [required]="true">
+                                                    </p-dropdown>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label class="col-12" for="start date">Start date & time*</label>
+                                                    <p-calendar name="leave_starting_date"
+                                                        [(ngModel)]="leave_starting_date" [showTime]="true"
+                                                        [showSeconds]="true" inputId="startTime"
+                                                        placeholder="Pick date and time" [required]="true"></p-calendar>
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="col-12" for="end Date">End date & time*</label>
+                                                    <p-calendar name="leave_end_date" [(ngModel)]="leave_end_date"
+                                                        [showTime]="true" [showSeconds]="true" inputId="endTime"
+                                                        placeholder="Pick date and time" [required]="true"></p-calendar>
+                                                </div>
+
+                                                <div class="field col-12 md:col-3">
+                                                    <label class="col-12" for="stacked">MDs for leave</label>
+                                                    <div *ngIf="leave_type?.name !== 'Short leave'">
+                                                        <p-inputNumber name="man_days" [(ngModel)]="man_days"
+                                                            inputId="minmaxfraction" [showButtons]="true" mode="decimal"
+                                                            [minFractionDigits]="1" [maxFractionDigits]="5" [min]="0"
+                                                            [max]="14" [step]="0.5" [required]="true">
+                                                        </p-inputNumber>
+
+                                                    </div>
+                                                    <div *ngIf="leave_type?.name === 'Short leave'">
+                                                        <p-inputNumber name="man_days" [(ngModel)]="man_days"
+                                                            inputId="minmaxfraction" [showButtons]="true" mode="decimal"
+                                                            [minFractionDigits]="1" [maxFractionDigits]="5"
+                                                            [step]="0.0625" [min]="0" [max]="0.1875" [required]="true">
+                                                        </p-inputNumber>
+                                                    </div>
+
+
+
+                                                </div>
+                                                <div class="col-12 col-md-12">
+                                                    <div class="row"><label>Reason*</label></div>
+                                                    <textarea name="reason" [rows]="5" [cols]="30" pInputTextarea
+                                                        [autoResize]="true" [(ngModel)]="reason"
+                                                        [required]="true"></textarea>
+                                                </div>
+                                                <div class="col-6 col-md-8">
+                                                    <div>
+                                                        <label>Upload Document</label>
+
+                                                        <div>
+                                                            <app-file-uploader [rootUrl]="imageUrl" [data]="getLogo()"
+                                                                [multiple]="false" [deletable]="true"
+                                                                (onChangeFile)="onAddFile($event)"
+                                                                (onDeleteFile)="onRemoveFile($event)">
+                                                            </app-file-uploader>
+                                                        </div>
+                                                        <p class="info-message text-danger"
+                                                        *ngIf="(leave_type?.name==='Medical leave' && man_days >1)||leave_type?.name==='Maternity leave'">
+                                                            You need to sumbit the document </p>
+
+                                                    </div>
+
+                                                    <!-- <p
+                                        class="info-message text-danger"
+                                        *ngIf="!user.full_name && fData.submitted"
+                                      >
+                                        This is a mandatory field
+                                      </p> -->
+                                                </div>
+
+
+                                                <!-- <div class="col-12 col-md-6">
+                                            <label class="col-12 col-md-12" >Recommendation</label>
+                                            <p-dropdown name="tl_respond_by" class="col-12 col-md-12" [options]="[]" [style]="{'height':'25px' }" [(ngModel)] ="tl_respond_by" 
+                                                optionLabel="name" [showClear]="false">
+                                            </p-dropdown>
+                                        </div> -->
+                                                <!-- <div
+                                      *ngIf="leaveType === 'Approved by' && isRequestMode === false"
+                                      class="col-12 col-md-6"
+                                    >
+                                      <label>Status: </label>
+                                      Approved
+                                    </div>
+                        
+                                    <div
+                                      *ngIf="leaveType === 'Approved by' && isRequestMode === false"
+                                      class="col-12 col-md-6 margin-leave"
+                                    >
+                                      <button
+                                        pButton
+                                       
+                                        type="button"
+                                        label="Employee leave summary"
+                                        class="p-button-success"
+                                        (click)="opSummary.toggle($event)"
+                                      ></button>
+                                    </div> -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div *ngIf="isRequestMode === true" class="col-12 col-md-5 leave-details">
+
+
+                                        <div *ngIf="leave_type && man_days ">
+                                            <h4>{{man_days}} MDs {{leave_type.name}}</h4>
+                                            <p>Remaining {{leave_type.name}}s: {{remainingLeaveType}}</p>
+
+                                        </div>
+                                        <div>
+                                            <button [disabled]="buttonDisabled" pButton type="submit"
+                                                label="Request leave" class="p-button-success"
+                                                (click)="showLeaveDetails()"></button>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="isRequestMode === false" class="col-12 col-md-4 leave-details">
+                                        <div>
+                                            <h4>1 Day casual leave</h4>
+                                            <p>Remaining casual leaves: 4</p>
+                                        </div>
+                                        <div class="col-12 col-md-12">
+                                            <textarea [rows]="5" [cols]="23" pInputTextarea placeholder="comment"
+                                                [autoResize]="true"></textarea>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </form>
+                        </ng-template>
+                    </p-overlayPanel>
+
+
+                </div>
+            </div>
+
+            <div class="table-responsive mt-4 col-10 offset-1">
+                <table class="table table-borderless">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Eligilble</th>
+                            <th scope="col">Taken</th>
+                            <th scope="col">Remaining</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr>
+                            <th scope="row ">Total Number of leave</th>
+                            <td class="text-center">{{leaveDetails.annual_leaves+
+                                leaveDetails.sick_leaves+leaveDetails.casual_leaves}}</td>
+                            <td class="text-center">{{(leaveDetails.annual_leaves+
+                                leaveDetails.sick_leaves+leaveDetails.casual_leaves-leaveDetails.rem_annual_leaves+
+                                leaveDetails.rem_sick_leaves+leaveDetails.rem_casual_leaves)}}</td>
+                            <td class="text-center">{{(leaveDetails.rem_annual_leaves+
+                                leaveDetails.rem_sick_leaves+leaveDetails.rem_casual_leaves)}}</td>
+                        </tr> -->
+                        <tr>
+                            <th scope="row">Annual Leave</th>
+                            <td class="text-center">{{leaveDetails?.annual_leaves}}</td>
+                            <td class="text-center">{{leaveDetails?.annual_leaves-leaveDetails?.rem_annual_leaves}}</td>
+                            <td class="text-center">{{leaveDetails?.rem_annual_leaves}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Medical Leave</th>
+                            <td class="text-center">{{leaveDetails?.sick_leaves}}</td>
+                            <td class="text-center">{{leaveDetails?.sick_leaves-leaveDetails?.rem_sick_leaves}}</td>
+                            <td class="text-center">{{leaveDetails?.rem_sick_leaves}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Casual Leave</th>
+                            <td class="text-center">{{leaveDetails?.casual_leaves}}</td>
+                            <td class="text-center">{{leaveDetails?.casual_leaves-leaveDetails?.rem_casual_leaves}}</td>
+                            <td class="text-center">{{leaveDetails?.rem_casual_leaves}}</td>
+                        </tr>
+                        <!-- <tr>
+                            <th scope="row">Halfday Leaves</th>
+                            <td class="text-center">{{leaveDetails?.casual_leaves*2}}</td>
+                            <td class="text-center">{{(leaveDetails?.casual_leaves-leaveDetails?.rem_casual_leaves)*2}}
+                            </td>
+                            <td class="text-center">{{leaveDetails?.rem_casual_leaves*2}}</td>
+                        </tr> -->
+                        <tr>
+                            <th scope="row">Short Leave</th>
+                            <td class="text-center">{{leaveDetails?.short_leaves}}</td>
+                            <td class="text-center">{{leaveDetails?.short_leaves-leaveDetails?.rem_short_leaves}}</td>
+                            <td class="text-center">{{leaveDetails?.rem_short_leaves}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div *ngIf="isCEO">
+        <div class="row m-2 ">
+            <div class="col box border border-1 scrolling">
+                <h2 class="employee-dashboard-title">Leave on This Week</h2>
+                <div class="p-3 mb-3 " *ngFor="let leave of thisWeekLeaves">
+                    <div class="row ">
+                        <div class="col">
+                            <div class="row">
+                                <h5 class="name-leave">{{leave.request_by.first_name}}</h5>
+                            </div>
+                            <div class="row">
+                                <h6 class="name-leave-type">{{leave.leave_type.name}}</h6>
+                            </div>
+
+
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-12 " *ngFor="let grp of leave.request_by.groupUser">
+                                    <h6 class="name-leave-type">{{grp.group.name}}</h6>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col">
+                            <h6 class="name-leave-type">{{leave.man_days}} Mds </h6>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col box border border-1 scrolling">
+                <h2 class="employee-dashboard-title">Recent Birthdays</h2>
+                <div class="p-3 mb-3 " *ngFor="let user of birthdayUSers">
+                    <div class="row ">
+                        <div class="col">
+                            <h5 class="name-leave">{{user.first_name}}</h5>
+
+                        </div>
+                        <div class="col">
+                            <h6 class="name-leave-type" *ngIf="user['BOD']">{{user['BOD'].toString() |
+                                date:'YYYY-MM-dd'}}</h6>
+                        </div>
+                        <!-- <div class="col">
+                            <h6 class="name-leave-type">{{user.man_days}} MDs </h6>
+                        </div> -->
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="name-leave-type">{{user.age}}{{user['endCharacter']}} birthday</h6>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-2">
+            <div class="col box border border-1 ">
+                <h2 class="employee-dashboard-title">Employees</h2>
+                <p-table [value]="usersForCEO" [scrollable]="true" scrollHeight="400px">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Date joined</th>
+                            <th scope="col">Position</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
+                        <tr>
+                            <td>{{rowIndex+1}}</td>
+
+                            <td>{{product.first_name}}</td>
+                            <td>{{product.starting_date.calendar()}}</td>
+                            <td>{{product.role.name}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

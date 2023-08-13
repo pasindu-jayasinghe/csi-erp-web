@@ -1,0 +1,142 @@
+<div class="row ">
+    <div class="col-12 col-md-8" >
+        <div>
+            <h4> Activity</h4>
+            <div class="grid">
+                <div class="row p-2">
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Activity Name</label>
+                        <input type="text" maxlength="50" [(ngModel)]="activity.name" [disabled]="true"
+                            placeholder="Activity Name" name="name" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Task Type</label>
+                        <input type="text" maxlength="50" [(ngModel)]="activity.activity_type" [disabled]="true"
+                            placeholder="Task Type" name="activity_type" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+                
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Estimated MDs</label>
+                        <input type="text" maxlength="50"  [(ngModel)]="activity.planned_MD"[disabled]="true"
+                            placeholder="Estimated MDs" name="planned_MD" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Actual MDs</label>
+                        <input type="text" maxlength="50"  [(ngModel)]="activity.used_MD" [disabled]="true"
+                            placeholder="Actual MDs" name="used_MD" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Assigned by</label>
+                        <input type="text" maxlength="50"  [(ngModel)]="activity.assign_by.first_name" [disabled]="true"
+                            placeholder="Assigned by" name="assign" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Planned Starting Date</label>
+                        <input type="text" maxlength="50"  [(ngModel)]="activity.planned_start_date" [disabled]="true"
+                            placeholder="Planned Starting Date" name="planned_start_date" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Estimated End Date</label>
+                        <input type="text" maxlength="50"  [(ngModel)]="activity.planned_end_date" [disabled]="true"
+                            placeholder="Estimated End Date" name="planned_end_date" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Actual Starting Date</label>
+                        <input type="text" maxlength="50"   [(ngModel)]="activity.actual_start_date" [disabled]="true"
+                            placeholder="Actual Starting Date" name="planned_MD" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Actual End Date</label>
+                        <input type="text" maxlength="50" [(ngModel)]="activity.actual_end_date" [disabled]="true" 
+                            placeholder="Actual End Date" name="planned_MD" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Deadline</label>
+                        <input type="text" maxlength="50"   [(ngModel)]="activity.deadline" [disabled]="true"
+                            placeholder="Deadline" name="deadline" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="col-12 col-md-4 task-detail">
+
+        <div>
+            <h4> Project</h4>
+
+            <div class="grid">
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Name</label>
+                        <input type="text" maxlength="50"  [(ngModel)]="activity.project.name"[disabled]="true"
+                            placeholder="Project Name" name="pname" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Client</label>
+                        <input type="text" maxlength="50"  [(ngModel)]="activity.project.client"[disabled]="true"
+                            placeholder="Client Name" name="client" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Duration</label>
+                        <input type="text" maxlength="50" [(ngModel)]="activity.project.duration" [disabled]="true"
+                            placeholder="Duration" name="duration" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="p-field">
+                        <label for="institute">Lead</label>
+                        <input type="text" maxlength="50"  [(ngModel)]="activity.project.project_lead.first_name" [disabled]="true"
+                            placeholder="Project Lead" name="fname" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+
+        </div></div>
+</div>
+
+</div>
+

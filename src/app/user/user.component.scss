@@ -1,0 +1,37 @@
+$black-color:#000000;
+$white-color:#ffffff;
+
+.leaves-top-title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 150%;
+  color: $black-color;
+  margin-left: 10px;
+}
+
+.leaves-top-button .p-button {
+  color: #ffffff;
+  background: #319b0c !important;
+  border: 1px solid #a0bacf;
+  border-radius: 10px;
+}
+.leaves-top-button {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+
+.leave-table{
+    margin-top: 20px;
+ }
+ .leave-table .box{
+    margin: 20px;
+    background: $white-color;
+    border-radius : 15px ;
+
+ }
+ li {
+  display: inline-block;
+}

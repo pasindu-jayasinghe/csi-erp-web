@@ -1,0 +1,579 @@
+<div>
+  <div class="container margin-leaves">
+    <!-- top -->
+    <div class="row">
+      <div class="col-12 col-md-8">
+        <h1 class="leaves-top-title">{{user.id?'Edit':'Add'}} User</h1>
+      </div>
+    </div>
+  </div>
+  <!-- cards -->
+  <div class="container px-4">
+    <form #fData="ngForm" (ngSubmit)="onSubmit(fData)">
+      <div class="card mt-3">
+        <div class="p-grid p-fluid col-sm-12">
+          <div class="row">
+            <div class="col-7">
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Full Name</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      maxlength="500"
+                      placeholder="Enter Full Name"
+                      name="full_name"
+                      [(ngModel)]="user.full_name"
+                      class="p-inputtext"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.full_name && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>First Name</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      maxlength="50"
+                      placeholder="Enter First Name"
+                      name="first_name"
+                      [(ngModel)]="user.first_name"
+                      class="p-inputtext"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.first_name && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Last Name</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      maxlength="50"
+                      placeholder="Enter Last Name"
+                      name="last_name"
+                      [(ngModel)]="user.last_name"
+                      class="p-inputtext"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.last_name && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Email</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="email"
+                      maxlength="50"
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                      placeholder="Enter Email"
+                      name="email"
+                      [(ngModel)]="user.email"
+                      class="p-inputtext"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.last_name && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Code</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      maxlength="50"
+                      placeholder="Enter Code"
+                      name="code"
+                      [(ngModel)]="user.code"
+                      class="p-inputtext"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.code && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Type of Employee</label>
+                  </div>
+                  <div class="col-9">
+                    <p-dropdown
+                      name="employee_types"
+                      [options]="employeeTypes"
+                      [(ngModel)]="user.employee_types"
+                      placeholder="Select .."
+                      appendTo="body"
+                    ></p-dropdown>
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.employee_types && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Department</label>
+                  </div>
+                  <div class="col-9">
+                    <p-multiSelect
+                      name="Department"
+                      [options]="departmentList"
+                      [(ngModel)]="selectedDepartmentList"
+                      placeholder="Select Departments.."
+                      appendTo="body"
+                      optionLabel="name"
+                    >
+                    </p-multiSelect>
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!(selectedDepartmentList.length>0) && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Position</label>
+                  </div>
+                  <div class="col-9">
+                    <p-dropdown
+                      name="role"
+                      [options]="rolelist"
+                      [(ngModel)]="user.role"
+                      placeholder="Select .."
+                      optionLabel="name"
+                      appendTo="body"
+                    ></p-dropdown>
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.role && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Gender</label>
+                  </div>
+                  <div class="col-9">
+                    <p-dropdown
+                      name="gender"
+                      [options]="genderList"
+                      [(ngModel)]="user.gender"
+                      [required]="true"
+                      placeholder="Select .."
+                      appendTo="body"
+                    ></p-dropdown>
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.gender && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Maritial status</label>
+                  </div>
+                  <div class="col-9">
+                    <p-dropdown
+                      name="maritial_statuses"
+                      [options]="maritial_statuses"
+                      [(ngModel)]="user.maritial_status"
+                      [required]="true"
+                      placeholder="Select .."
+                      appendTo="body"
+                    ></p-dropdown>
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.maritial_status && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Date of Birth</label>
+                  </div>
+                  <div class="col-9">
+                    <p-calendar
+                      name="bOD"
+                      [(ngModel)]="user.bOD"
+                      dateFormat="yy-mm-dd"
+                      [required]="true"
+                      inputId="bOD"
+                      placeholder="Pick date and time"
+                      [showTime]="false"
+                      [showSeconds]="false"
+                    ></p-calendar>
+                    <!-- <P *ngIf="user.id&&user.bOD">{{user.bOD.toString() | date:'dd-MM-yyyy'}}</P> -->
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.bOD && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Join Date</label>
+                  </div>
+                  <div class="col-9">
+                   
+                    <p-calendar
+                      name="starting_date"
+                      [(ngModel)]="user.starting_date"
+                      dateFormat="yy-mm-dd"
+                      [required]="true"
+                      inputId="starting_date"
+                      placeholder="Pick date and time"
+                      [showTime]="false"
+                      [showSeconds]="false"
+                    ></p-calendar>
+                    <!-- <P *ngIf="user.id&&user.starting_date">{{user.starting_date.toString() | date:'dd-MM-yyyy'}}</P> -->
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.starting_date && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Home town</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      maxlength="50"
+                      placeholder="Enter Home Town"
+                      name="home_town"
+                      [(ngModel)]="user.home_town"
+                      class="p-inputtext"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.home_town && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Phone Number</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      maxlength="50"
+                      placeholder="Enter Phone Number"
+                      name="phone_number"
+                      [(ngModel)]="user.phone_number"
+                      class="p-inputtext"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.home_town && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Emergancy contact number</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      maxlength="50"
+                      placeholder="Enter emergancy contact number"
+                      name="emergency_phone_number"
+                      [(ngModel)]="user.emergency_phone_number"
+                      class="p-inputtext"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.emergency_phone_number && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Emergancy contact relation</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      maxlength="50"
+                      placeholder="Enter emergancy contact relation"
+                      name="emergency_contact_relation"
+                      [(ngModel)]="user.emergency_contact_relation"
+                      class="p-inputtext"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.emergency_contact_relation && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>EPF number</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      maxlength="50"
+                      placeholder="Enter EPF number"
+                      name="eFP_number"
+                      [(ngModel)]="user.eFP_number"
+                      class="p-inputtext"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.eFP_number && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Spouse</label>
+                  </div>
+                  <div class="col-9">
+                    <input
+                      type="text"
+                      maxlength="50"
+                      placeholder="Enter spouce name"
+                      name="spouse_name"
+                      [(ngModel)]="user.spouse_name"
+                      class="p-inputtext"
+                      
+                    />
+                  </div>
+                </div>
+
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Qulification</label>
+                  </div>
+                  <div class="col-9">
+                    <textarea
+                      name="qulification"
+                      [rows]="5"
+                      [cols]="30"
+                      pInputTextarea
+                      [autoResize]="true"
+                      [(ngModel)]="user.qulification"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.qulification && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+            </div>
+            <div class="col-5">
+              <div class="p-field px-2 pb-4">
+                <div class="row">
+                  <label>Upload Logo</label>
+                  <div class="row">
+                    <img style="width:100%;max-height: 50vh;"  [src]="user.logo_url">
+                 
+                  </div>
+                  <app-file-uploader
+                    [rootUrl]="imageUrl"
+                    [data]="getLogo()"
+                    [multiple]="false"
+                    [deletable]="true"
+                    (onChangeFile)="onAddFile($event)"
+                    (onDeleteFile)="onRemoveFile($event)"
+                  >
+                  </app-file-uploader>
+                </div>
+
+             
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <label>National Identity Card number</label>
+
+                  <input
+                    type="text"
+                    maxlength="50"
+                    placeholder="Enter NIC number"
+                    name="NIC_number"
+                    [(ngModel)]="user.nIC_number"
+                    class="p-inputtext"
+                    required
+                  />
+                </div>
+
+                <p
+                  class="info-message text-danger"
+                  *ngIf="!user.nIC_number && fData.submitted"
+                >
+                  This is a mandatory field
+                </p>
+              </div>
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <label>Adress</label>
+                  <textarea
+                    name="qulification"
+                    [rows]="5"
+                    [cols]="30"
+                    pInputTextarea
+                    [autoResize]="true"
+                    [(ngModel)]="user.adress"
+                  ></textarea>
+                </div>
+
+                
+              </div>
+
+              <div class="p-field px-2 pb-2">
+                <div class="row">
+                  <div
+                    class="col-md-4 d-flex flex-row-reverse leaves-top-button"
+                  >
+                    <button
+                      pButton
+                      type="back"
+                      label="back"
+                      style="background-color: dimgray !important"
+                      class="p-button-success"
+                      (click)="back()"
+                    ></button>
+                  </div>
+
+                  <div
+                    class="col-md-4 d-flex flex-row-reverse leaves-top-button"
+                  >
+                    <button
+                      pButton
+                      type="submit"
+                      label="submit"
+                      class="p-button-success"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

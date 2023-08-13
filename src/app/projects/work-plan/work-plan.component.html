@@ -1,0 +1,167 @@
+<div class="container pl-20 pr-20">
+  <h4 class="mt-4">{{ptext}}</h4>
+  <div class="card">
+    <div class="p-grid p-fluid col-sm-12">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="col-12" *ngIf="!dropVisible">
+            <div class="p-field">
+              <label for="userType">Employees</label>
+            </div>
+            <p-dropdown name="usertype1" [options]="users" [(ngModel)]="searchBy.user" #userType1="ngModel"
+              [showClear]="true" [filter]="true" placeholder="Select Employee" optionLabel="first_name" appendTo="body"
+              (ngModelChange)="onChangeUser($event)">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="p-inputgroup pt-4">
+
+            <p-calendar name="planned_end_date" [showTime]="true" [showClear]="true" placeholder="Select Date"
+              (ngModelChange)="onChangeDate($event)" [(ngModel)]="searchBy.date" appendTo="body">
+            </p-calendar>
+            <button type="button" pButton pRipple label="Search" (ngModelChange)="onChangeDate($event)"></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row p-2">
+      <p-table #table [value]="aAtendenses" [lazy]="true" (onLazyLoad)="loadgridData($event)" [paginator]="true"
+        [rows]="rows" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[ 10, 25, 50]" [totalRecords]="totalRecords" [loading]="loading">
+        <ng-template pTemplate="header">
+
+
+          <tr>
+            <th>
+              <div class="col-sm-2" style="width: 70.666667%">
+              </div>
+            </th>
+            <th>Employee</th>
+            <th>Date</th>
+            <th>Project</th>
+            <th>Task</th>
+            <th>Spent MDs</th>
+            <th>Progress</th>
+            <th>Feed Back</th>
+            <th>Status</th>
+
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-atend>
+          <tr>
+            <td>
+              <button type="button" class="p-button-rounded p-button-text   " (click)="viewDailyProgress(atend)"
+                 pButton icon="pi pi-eye" style=" border-color:green; ">
+              </button>
+
+              <button type="button" class="p-button-rounded p-button-text " (click)="editDailyProgress(atend)"
+                [disabled]="atend.date < todayDate" pButton pRipple icon="pi pi-pencil"
+                style=" border-color:brown; "></button>
+
+            <td> {{ atend.activity?.assign_to?.first_name}}</td>
+            <td>{{ atend.date | date : "dd-MM-yyyy" }}</td>
+            <td>{{ atend.activity?.project.name }}</td>
+            <td [pTooltip]= "atend.comment">{{ atend.activity?.name }}</td>
+            <td>{{ atend.spent_MD }}</td>
+            <td>{{ atend.daily_progress }}%</td>
+            <!-- <td>{{ atend.csiFeedBack ? atend.csiFeedBack:"Not Feed back yet"}}</td> -->
+
+            <td [pTooltip]= "atend.csiFeedBack">
+              <p-tag value="{{atend.csiFeedBack ? 'recieved': 'no'}}"
+                severity="{{atend.csiFeedBack ? 'warning': 'primary'}}"> </p-tag>
+            </td>
+
+            
+            <td>
+              <p-tag  [pTooltip]= "atend.acceptance" [icon]=" atend.acceptance === 'ACCEPTED' ? 'pi pi-check' : atend.acceptance === 'UNSATISFIED' ? 'pi pi-info-circle' :  atend.acceptance === 'DELAYED' ? 'pi pi-clock' : ''"
+                severity="{{atend.acceptance === 'ACCEPTED' ? 'success' :
+                atend.acceptance === 'UNSATISFIED' ? 'warning' :
+                atend.acceptance === 'DELAYED' ? 'danger' : 'primary'}}"> </p-tag>
+            </td>
+
+   
+
+
+
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+
+    <!--Gtaks table-->
+
+    <div class="row p-2">
+      <p-table #table [value]="gTasks" [lazy]="true" (onLazyLoad)="loadgridGtaskData($event)" [paginator]="true"
+        [rows]="rows" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[ 10, 25, 50]" [totalRecords]="totalRecords" [loading]="loading">
+        <ng-template pTemplate="header">
+
+
+          <tr>
+            <th>
+              <div class="col-sm-2" style="width: 70.666667%">
+              </div>
+            </th>
+            <th>Employee</th>
+            <th>Date</th>
+            <th>General Task</th>
+            <th>Spent MDs</th>
+            <th>Feed Back</th>
+
+
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-gtask>
+          <tr>
+            <td>
+              <button type="button" class="p-button-rounded p-button-text " (click)="viewGtask(gtask)" pButton
+                icon="pi pi-eye" style=" border-color:green; ">
+              </button>
+
+              <button type="button" class="p-button-rounded p-button-text " (click)="editGtask(gtask)" pButton pRipple
+                icon="pi pi-pencil" style=" border-color:brown; "></button>
+
+              <!-- <button type="button" class="p-button-rounded p-button-text " (click)="viewDailyProgress(atend)"  pButton pRipple icon="pi pi-times"
+                style=" border-color:red; "
+                ></button>
+              </td> -->
+              <!-- <td>
+                <button type="button" class="p-button-rounded p-button-text " (click)="viewDailyProgress(atend)"  pButton pRipple icon="pi pi-pencil"
+                ></button>
+              </td>
+   -->
+            <td>{{ gtask.user.first_name}}</td>
+            <td>{{ gtask.date | date : "dd-MM-yyyy" }}</td>
+            <td>{{ gtask.name}}</td>
+            <td>{{ gtask.g_MD}}</td>
+            <td>{{ gtask.csiFeedBack}}</td>
+
+
+
+            <!-- <td>{{ atend.date }}</td>
+              <td>{{ atend.activity?.project.name }}</td>
+              <td>{{ atend.activity?.name }}</td>
+              <td>{{ atend.spent_MD }}</td>
+              <td>{{ atend.daily_progress }}%</td>
+              <td>{{ atend.csiFeedBack ? atend.csiFeedBack:"Not Feed back yet"}}</td> -->
+
+
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+
+
+    <!--Gtaks table-->
+
+
+  </div>
+</div>

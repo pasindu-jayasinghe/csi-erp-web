@@ -1,0 +1,104 @@
+<div class="container pl-16 pr-16">
+    <h4 class="mt-5">{{ptext}}</h4>
+    <div class="p-grid p-fluid card">
+        <div class="row p-2"  >
+
+            <div class="col-md-3" *ngIf="userRole == 'CEO'">
+                <label for="my-dropdown">Select the Employee:</label>
+                <p-dropdown id="my" [options]="users"
+                   placeholder="Select Employee"
+                   (onChange)="changeUser($event)"
+                   [(ngModel)]="user" 
+                   appendTo="body" 
+                   optionLabel="first_name"
+                   optionValue="id"
+                   [showClear]="true">
+                </p-dropdown>
+              </div>
+              <div class="col-md-3" *ngIf="userRole == 'CEO'">
+                <label for="my-dropdown">Select the Status:</label>
+                <p-dropdown id="my" [options]="activityStatus"
+                   placeholder="Select status"
+                   [(ngModel)]="filterStatus" 
+                   (onChange)="changeStatus($event)"
+                   appendTo="body" 
+                   optionLabel="name"
+                   optionValue="value"
+                   [showClear]="true">
+                </p-dropdown>
+              </div>
+              <div class="col-md-3" >
+                <label for="my-dropdown">Select project:</label>
+                <p-dropdown id="my" [options]="projects"
+                   placeholder="Select project"
+                   [(ngModel)]="filterProjectId" 
+                   (onChange)="changeProject($event)"
+                   appendTo="body" 
+                   optionLabel="name"
+                   optionValue="id"
+                   [showClear]="true">
+                </p-dropdown>
+              </div>
+               <div class="col-md-3" >
+                <label for="my-dropdown">Select date range:</label>
+               
+             <p-calendar  appendTo="body" [showClear]="true"  placeholder="Select date range" [(ngModel)]="dates" selectionMode="range" [readonlyInput]="true"  (ngModelChange)="changeDate($event)"></p-calendar>
+              </div>
+              
+              
+    
+            <div class="col-md-2" *ngIf="userRole != 'CEO'">
+                <label for="my-dropdown">Add General Tasks:</label>
+                      <p-button label="+ General Task" styleClass="p-button-rounded p-button-success" (click)="addGTask()"  *ngIf="userRole != 'CEO'"></p-button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="p-grid p-fluid card">
+ 
+
+
+    - <div class="p-grid" style="display: flex;flex-wrap: wrap; margin: 5px;">
+ 
+
+            <div class="p-col" *ngFor="let task of aTasks">
+
+                <div style="position: relative;">
+                    <p-card header={{task.name}} subheader="" [style]="task.assign_to.first_name  ? styleOBJ2 : styleOBJ" styleClass="p-card-shadow ui-card">
+                        <p>Project: {{task.project.name}}</p>
+                        <p>Assigned by: {{task.assign_by.first_name ? task.assign_by.first_name :"N/A"}}</p>
+                        <p>Assigned to:{{task.assign_to.first_name ? task.assign_to.first_name :"N/A"}} </p>
+                        <p>Estimated MDs:  {{task.planned_MD}} </p>
+                        <p>Actual MDs: {{task.used_MD ? task.used_MD : "N/A"}}</p>
+                
+                        <p-progressBar [value]="task.progress"></p-progressBar>
+                        <p> </p>
+
+                        <button  pButton pRipple type="button" icon="pi pi-eye" class="p-button " (click)="viewTask(task.id)" style="margin-left:5px;margin-top:2px;"></button>
+                        <button   pButton pRipple type="button" icon="pi pi-plus-circle" (click)="addDailyProgress(task.id)" class="p-button" style="margin-left:5px;margin-top:2px;"></button>
+                        <button   pButton pRipple type="button" icon="pi pi-calendar-plus" (click)="addNextWP(task.id)" class="p-button" style="margin-left:5px;margin-top:2px;"></button>
+
+                    </p-card>
+                
+
+                    <p-tag [severity]="getSeverity(task.activityStatus)" [value]="task.activityStatus" style="position: absolute; top: 0; right: 0;"></p-tag> 
+
+
+                </div>
+
+
+  
+                  
+
+                
+            </div>
+        </div>
+
+
+  
+          
+        <br>
+
+    </div>
+</div>

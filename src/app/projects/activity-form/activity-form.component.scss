@@ -1,0 +1,16 @@
+.calendar-container {
+    width: 300px; /* adjust this value as needed to fit within your layout */
+    margin: 0 auto;
+    overflow-x: scroll; /* add this property to enable horizontal scrolling */
+  }
+  
+  .my-calendar .p-datepicker-month {
+    width: 300px; /* or any other value that works for your layout */
+    overflow-x: scroll; /* enable horizontal scrolling if necessary */
+  }
+  
+  .my-calendar .p-datepicker-prev,
+  .my-calendar .p-datepicker-next {
+    margin-top: -18px; /* adjust this value to position the navigation arrows as desired */
+  }
+  

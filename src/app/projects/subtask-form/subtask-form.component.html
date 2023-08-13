@@ -1,0 +1,141 @@
+<div class="container pl-16 pr-16">
+    <h4 class="mt-5">Add Sub Task</h4>
+
+    <form #fData="ngForm" (ngSubmit)="saveSubTask(fData)">
+
+        <div class="card mt-3">
+            <div class="p-grid p-fluid col-sm-12">
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="institute">Name</label>
+                            <input type="text" maxlength="50" placeholder="Enter Code Name" name="contatname"
+                                field="contatname" class="p-inputtext" required />
+
+                            <p class="info-message text-danger" *ngIf="(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="contatname">Code*</label>
+                            <input type="text" maxlength="50" placeholder="Enter Code Name" name="contatname"
+                                field="contatname" class="p-inputtext" required />
+                            <p class="info-message text-danger" *ngIf="(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="institute">Dead line</label>
+                            <input type="text" maxlength="50" placeholder="Enter Code Name" name="contatname"
+                                field="contatname" class="p-inputtext" required />
+
+                            <p class="info-message text-danger" *ngIf="(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="contatname">Assign to*</label>
+                            <!-- <input type="text" maxlength="50" placeholder="Enter Code Name" name="contatname"
+                                field="contatname" class="p-inputtext" required /> -->
+                                <p-dropdown 
+                                name="projectType"
+                                [options]="employees"
+                                placeholder="Select Employee"
+                                class="col-4"
+                            ></p-dropdown>
+                            <p class="info-message text-danger" *ngIf="(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="institute">Planned MDs</label>
+                            <input type="text" maxlength="50" placeholder="Enter Code Name" name="contatname"
+                                field="contatname" class="p-inputtext" required />
+
+                            <p class="info-message text-danger" *ngIf="(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="contatname">Actual MDs*</label>
+                            <input type="text" maxlength="50" placeholder="Enter Code Name" name="contatname"
+                                field="contatname" class="p-inputtext" required />
+                            <p class="info-message text-danger" *ngIf="(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="institute">Planned Start Date</label>
+                            <input type="text" maxlength="50" placeholder="Enter Code Name" name="contatname"
+                                field="contatname" class="p-inputtext" required />
+
+                            <p class="info-message text-danger" *ngIf="(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="contatname">Planned End Date*</label>
+                            <input type="text" maxlength="50" placeholder="Enter Code Name" name="contatname"
+                                field="contatname" class="p-inputtext" required />
+                            <p class="info-message text-danger" *ngIf="(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="institute">Potential End Date</label>
+                            <input type="text" maxlength="50" placeholder="Enter Code Name" name="contatname"
+                                field="contatname" class="p-inputtext" required />
+
+                            <p class="info-message text-danger" *ngIf="(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>  
+
+
+                <div class="card mt-3">
+                    <button type="button" class="align-self-end btn btn-md btn-block btn-primary"
+                        style="margin-top: auto;">Submit</button>
+                </div>
+                
+
+        </form>
+</div>

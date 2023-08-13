@@ -1,0 +1,289 @@
+<div class="card mt-3">
+    <h4>Task</h4>
+    <div class="p-grid p-fluid col-sm-12">
+
+
+        <div class="row p-2">
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">Date</label>
+                    <input type="text" maxlength="50" [(ngModel)]="acAttend.date" [disabled]="true"
+                        placeholder="Enter Code Name" name="ddate" field="contatname" class="p-inputtext" required />
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">Project </label>
+                    <input type="text" maxlength="50" [(ngModel)]="acAttend.activity.project.name" [disabled]="true"
+                        placeholder="Enter Code Name" name="pname" field="contatname" class="p-inputtext" required />
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">Task Assigned</label>
+                    <input type="text" maxlength="50" [(ngModel)]="acAttend.activity.name" [disabled]="true"
+                        placeholder="Enter Code Name" name="atask" field="contatname" class="p-inputtext" required />
+
+                </div>
+
+
+            </div>
+
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">Progress%</label>
+                    <input type="text" maxlength="50" [(ngModel)]="acAttend.activity.progress" [disabled]="true"
+                        placeholder="Enter Code Name" name="aprogress" field="contatname" class="p-inputtext"
+                        required />
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <div class="row p-2">
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">Expected MDs</label>
+                    <input type="text" maxlength="50" [disabled]="true" placeholder="Enter Code Name"
+                        [(ngModel)]="acAttend.activity.planned_MD" name="planned_MD" field="contatname"
+                        class="p-inputtext" required />
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">Actual MDs</label>
+                    <input type="text" maxlength="50" [disabled]="true" placeholder="Enter Code Name" name="actual_MD"
+                        [(ngModel)]="acAttend.activity.used_MD" field="contatname" class="p-inputtext" required />
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">Expected Completion Date</label>
+
+
+                    <input type="text" maxlength="50" [disabled]="true" placeholder="Enter Code Name" name="penddate"
+                        [(ngModel)]="acAttend.activity.planned_end_date" field="contatname" class="p-inputtext"
+                        required />
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">Actual Completion Date</label>
+
+                    <input type="text" maxlength="50" [disabled]="true" placeholder="Enter Code Name" name="acenddate"
+                        [(ngModel)]="acAttend.activity.actual_end_date" field="contatname" class="p-inputtext"
+                        required />
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="card mt-3">
+    <h4>Daily Progress</h4>
+
+    <div class="p-grid p-fluid col-sm-12">
+
+
+        <div class="row p-2">
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">Progress % *</label>
+                    <input type="text" maxlength="50" placeholder="Enter Code Name" name="daily_progress" [disabled]="isView"
+                        [(ngModel)]="acAttend.daily_progress" field="contatname" class="p-inputtext" required />
+
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">Spent MDs *</label>
+                    <input type="text" maxlength="50" placeholder="Enter Code Name" name="spent_MD" [disabled]="isView"
+                        [(ngModel)]="acAttend.spent_MD" name="spent_MD" field="contatname" class="p-inputtext"
+                        required />
+
+
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="p-field">
+                    <label for="institute">Comment * </label>
+                    <!-- <input type="text" maxlength="50" [(ngModel)]="acAttend.comment" placeholder="Enter Code Name" [disabled]="isView"
+                        name="comment" field="contatname" class="p-inputtext" required /> -->
+
+                        <div class="p-field px-2 pb-2">
+                            <div class="row">
+                              <textarea
+                                name="comment"
+                                [rows]="5"
+                                [cols]="30"
+                                pInputTextarea
+                                placeholder="Enter Comment (max:2000)"
+                                [(ngModel)]="acAttend.comment"
+                                required
+                                [disabled]="isView"
+                              ></textarea>
+                            </div>                
+                           </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="card mt-3">
+    <h4>Feed Back</h4>
+
+    <div class="p-grid p-fluid col-sm-12">
+
+
+        <div class="row p-2">
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">ClimateSI Feedbcak </label>
+                  
+                      <div class="p-field px-2 pb-2">
+                            <div class="row">
+                              <textarea
+                                name="csiFeedBack"
+                                [rows]="5"
+                                [cols]="30"
+                                pInputTextarea
+                                placeholder="Enter Feedback (max:2000)"
+                                [(ngModel)]="acAttend.csiFeedBack"
+                                required
+                                [disabled]="userRole != 'CEO'"
+                                ></textarea>
+                            </div>                
+                           </div>
+
+
+                </div>
+            </div>
+
+
+            <div class="col-12 col-md-3">
+                <div class="p-field">
+                    <label for="institute">Staff FeedBack</label>
+
+                        <div class="p-field px-2 pb-2">
+                            <div class="row">
+                              <textarea
+                                name="staffFeedBack"
+                                [rows]="5"
+                                [cols]="30"
+                                pInputTextarea
+                                placeholder="Enter Response (max:2000)"
+                                [(ngModel)]="acAttend.staffFeedBack"
+                                required
+                                [disabled]="userRole == 'CEO'"
+                                ></textarea>
+                            </div>                
+                           </div>
+
+
+                </div>
+            </div>
+
+   
+            <div class="col-12 col-md-5">
+                <div class="row p-2">
+
+                <div class="p-field">
+                    <label for="institute" class="transparent-label"></label>
+                    <div class="d-flex col-3 justify-content-start p-button-vertical mb-0 pl-2">
+                        <button class="btn btn-info  text-uppercase" type="button" (click)="send()">
+                            Send
+                        </button>
+                    </div>
+
+
+                </div>
+
+                <div class="p-field" *ngIf="bVisible">
+                    <label for="institute" class="transparent-label"></label>
+                    <div class="d-flex col-3 justify-content-start p-button-vertical mb-0 pl-2">
+                        <p-splitButton label="ACCEPTANCE" [model]="this.items"  styleClass="p-button-rounded mr-2 mb-2" appendTo="body"></p-splitButton>
+
+                    </div>
+
+
+                </div>
+                </div>
+            </div>
+
+            
+              
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card mt-3">
+
+    <div class="row p-2">
+
+        <div class="row p-grid p-fluid col-md-6 col-sm-6">
+            <div class="d-flex col-3 justify-content-start p-button-vertical mb-0 pl-2">
+                <button class="btn btn-secondary text-uppercase" (click)="back()">
+                    Back
+                </button>
+            </div>
+   
+            <div class="d-flex col-3 justify-content-start p-button-vertical mb-0 pl-2" *ngIf="!bVisible && !isView">
+                <button class="btn btn-danger text-uppercase" type="button" (click)="delete()">
+                    Delete
+                </button>
+            </div>
+            <div class="d-flex col-3 justify-content-end p-button-vertical mb-0 pl-2" *ngIf="!bVisible && !isView">
+                <button class="btn btn-primary text-uppercase" type="button" (click)="update()">
+                    Update
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

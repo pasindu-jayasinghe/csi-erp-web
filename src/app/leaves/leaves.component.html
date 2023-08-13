@@ -1,0 +1,1215 @@
+<div *ngIf="!isCEO">
+  <div class="container margin-leaves">
+    <!-- top -->
+    <div class="row">
+      <div class="col-12 col-md-8">
+        <h1 class="leaves-top-title">My leave record</h1>
+      </div>
+      <div class="col-md-4 d-flex flex-row-reverse leaves-top-button">
+       
+        <button
+          pButton
+          type="button"
+          label="Request a leave"
+          (click)="op.toggle($event); showRequestLeave()"
+          class="p-button-success"
+        ></button>
+        <button *ngIf="isHOD || isTL"
+        pButton
+        type="button"
+        label="To Request List"
+        (click)="scroll('requested-leave-list')"
+        class="p-button-success"
+      ></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- cards -->
+  <div class="container px-4">
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+      <div class="col">
+        <div class="box1">
+          <h6 class="box-top-title">Remaining</h6>
+          <h2 class="box-centre-title">Annual Leave</h2>
+          <h1 class="box-bottom-title">
+            <!-- {{
+                leaveDetails?leaveDetails.rem_annual_leaves + "/" + leaveDetails.annual_leaves:"No data"
+            }} -->
+            {{
+              leaveDetails?leaveDetails.rem_annual_leaves :"No data"
+          }}
+          </h1>
+        </div>
+      </div>
+      <div class="col">
+        <div class="box2">
+          <h6 class="box-top-title">Remaining</h6>
+          <h2 class="box-centre-title">Medical Leave</h2>
+          <h1 class="box-bottom-title">{{ leaveDetails?leaveDetails.rem_sick_leaves:"No data"  }}</h1>
+        </div>
+      </div>
+      <div class="col">
+        <div class="box3">
+          <h6 class="box-top-title">Remaining</h6>
+          <h2 class="box-centre-title">Casual Leave</h2>
+          <h1 class="box-bottom-title">{{ leaveDetails?leaveDetails.rem_casual_leaves:"No data"  }}</h1>
+        </div>
+      </div>
+      <div class="col">
+        <div class="box4">
+          <h6 class="box-top-title">Taken</h6>
+          <h2 class="box-centre-title">No-Pay Leave</h2>
+          <h6 class="box-bottom-title-1">Authorized:{{leaveDetails.no_pay_leaves?leaveDetails.no_pay_leaves:"0"}} </h6>
+          <h1 class="box-bottom-title-1">Unauthorized:{{leaveDetails.no_pay_unauthorized_leaves?leaveDetails.no_pay_unauthorized_leaves:"0"}} </h1>
+
+        </div>
+      </div>
+      <div class="col">
+        <div class="box5">
+          <h6 class="box-top-title">Remaining</h6>
+          <h2 class="box-centre-title">Short Leave</h2>
+          <h1 class="box-bottom-title">{{ leaveDetails?leaveDetails.rem_short_leaves:"No data" }}</h1>
+        </div>
+      </div>
+      
+    </div>
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+      <div class="col"></div>
+      <div class="col"></div>
+    <div  *ngIf="leaveDetails.rem_maternal_leaves<84 && leaveDetails.rem_maternal_leaves>0" class=" col ">
+      <div class="box6 ">
+        <h6 class="box-top-title">Remaining</h6>
+        <h2 class="box-centre-title">Maternal Leave</h2>
+        <h1 class="box-bottom-title">{{ leaveDetails?leaveDetails.rem_maternal_leaves:"No data" }}</h1>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- buttons and leave table-->
+
+  <div class="leave-table">
+    <div class="box">
+      <div class="row justify-content-md-center">
+        <div class="col col-md-3 col-lg-3 buttons-leave1">
+          <button
+            pButton
+            type="button"
+            [style]="{ height: '30px', 'border-radius': '6px', width: '120px' }"
+            label="Pending"
+            iconPos="right"
+            class="p-button-success"
+            (click)="changeLeaveStatusForMyLeaveList(LeaveStatuses.PENDING)"
+          ></button>
+        </div>
+        <div class="col col-md-3 col-lg-3 buttons-leave2">
+          <button
+            pButton
+            type="button"
+            [style]="{ height: '30px', 'border-radius': '6px', width: '120px' }"
+            label="Approved"
+            iconPos="right"
+            class="p-button-success"
+            (click)="changeLeaveStatusForMyLeaveList(LeaveStatuses.APPROVED)"
+          ></button>
+        </div>
+        <div class="col col-md-3 col-lg-3 buttons-leave3">
+          <button
+            pButton
+            type="button"
+            [style]="{ height: '30px', 'border-radius': '6px', width: '120px' }"
+            label="Declined"
+            iconPos="right"
+            class="p-button-success"
+            (click)="changeLeaveStatusForMyLeaveList(LeaveStatuses.REJECT)"
+          ></button>
+        </div>
+      </div>
+      <div>
+        <div class="row leave-table-info">
+          <div class="col-12 col-md-2">
+            <label class="label">Leave Type</label>
+          </div>
+          <div class="col-12 col-md-3">
+            <p-dropdown
+              [options]="leavetypesForMyList"
+              [style]="{ height: '25px' }"
+              [(ngModel)]="selectedLeaveTypeforMyLeaveList"
+              placeholder="Select leave type"
+              optionLabel="name"
+              [showClear]="false"
+              (onChange)="getLeavesForMyLeaveList()"
+            >
+            </p-dropdown>
+          </div>
+
+          <div class="table-responsive mt-4 scrolling">
+            <table class="table align-middle">
+              <thead class="text-center">
+                <tr>
+                  <th>Applied on</th>
+                  <th>Leave Type</th>
+                  <th>Date needed</th>
+                  <th>Amount</th>
+                  <th>Details</th>
+                  <th
+                    *ngIf="
+                      changedLeaveStatusForMyLeaveList === LeaveStatuses.PENDING
+                    "
+                  ></th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <tr *ngFor="let leave of myLeaveList; let i = index">
+                  <td>
+                    {{
+                      leave.createdOn
+                        ? (leave.createdOn.toString() | date : "dd-MM-yyyy ")
+                        : ""
+                    }}
+                  </td>
+                  <td>{{ leave.leave_type.name }}</td>
+                  <td>
+                    {{
+                      leave.leave_starting_date
+                        ? (leave.leave_starting_date.toString()
+                          | date : "dd-MM-yyyy ")
+                        : ""
+                    }}
+                  </td>
+                  <td>{{ leave.man_days }}</td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary"
+                      (click)="selectMyLeave(leave,true); leaveDetail.toggle($event)"
+                    >
+                      More
+                    </button>
+                  </td>
+                  <td
+                    *ngIf="
+                      changedLeaveStatusForMyLeaveList === LeaveStatuses.PENDING
+                    "
+                  >
+                    <button
+                      type="button"
+                      (click)="cancelPendingMyLeaves(leave)"
+                      class="btn btn-outline-danger"
+                      [disabled]="leave.leave_type.name===target"
+                    >
+                      Cancel
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- admin user -->
+<div *ngIf="loggedUserHigherGroup">
+  <div lass="container margin-leaves">
+    <!-- top -->
+    <div class="row">
+      <div class="col-12 col-md-8">
+        <h1 class="leaves-top-title">Leave Requests</h1>
+      </div>
+      <div class="col-md-4 d-flex flex-row-reverse leaves-admin-top">
+        <button
+          pButton
+          type="button"
+          label="Leave Summary"
+          (click)="leaveSummaryTable.toggle($event); showRequestLeave()"
+          class="p-button-success"
+        ></button>
+        <p-overlayPanel
+          #leaveSummaryTable
+          [dismissable]="false"
+          [showCloseIcon]="true"
+          [style]="{ width: '90vw' }"
+        >
+          <ng-template pTemplate>
+            <div class="row">
+              <div class="col-12 col-md-12 leave-form">
+                
+                <div class="col-12 col-md-12 table-responsive ">
+                  <table class="table table-borderless ">
+                    <thead class="text-center">
+                      <td></td>
+                      <th colspan="3">Annual leave</th>
+                      <td></td>
+                      <th colspan="3">Casual leave</th>
+                      <td></td>
+                      <th colspan="3">Medical leave</th>
+                      <td></td>
+                      <th colspan="3">Short leave (This month)</th>
+                      <td></td>
+                    </thead>
+                    <thead class="text-center">
+                      <td></td>
+                      <th>Eligilble</th>
+                      <th>Taken</th>
+                      <th>Remaining</th>
+                      <th></th>
+                      <th>Eligilble</th>
+                      <th>Taken</th>
+                      <th>Remaining</th>
+                      <th></th>
+                      <th>Eligilble</th>
+                      <th>Taken</th>
+                      <th>Remaining</th>
+                      <th></th>
+                      <th>Eligilble</th>
+                      <th>Taken</th>
+                      <th>Remaining</th>
+                    </thead>
+                    <tbody class="text-center">
+                      <tr *ngFor="let user of leaveSummary">
+                        <td>{{user.user.first_name}}</td>
+                        <td class="text-center">{{user?.annual_leaves}}</td>
+                        <td class="text-center">{{user.annual_leaves-user.rem_annual_leaves}}</td>
+                        <td class="text-center">{{user?.rem_annual_leaves}}</td>
+                        <td></td>
+                        <td class="text-center">{{user?.casual_leaves}}</td>
+                        <td class="text-center">{{user.casual_leaves-user.rem_casual_leaves}}</td>
+                        <td class="text-center">{{user?.rem_casual_leaves}}</td>
+                        <td></td>
+                        <td class="text-center">{{user?.sick_leaves}}</td>
+                        <td class="text-center">{{user.sick_leaves-user.rem_sick_leaves}}</td>
+                        <td class="text-center">{{user?.rem_sick_leaves}}</td>
+                        <td></td>
+                        <td class="text-center">{{user?.short_leaves}}</td>
+                        <td class="text-center">{{user.short_leaves-user.rem_short_leaves}}</td>
+                        <td class="text-center">{{user?.rem_short_leaves}}</td>
+                      </tr>
+                     
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </p-overlayPanel>
+      </div>
+    </div>
+  </div>
+  <div class="leave-table" id="requested-leave-list">
+    <div class="box">
+      <div class="row ms-5 ">
+        <div class="col col-md-3 col-lg-3 buttons-leave1">
+          <button
+            pButton
+            type="button"
+            [style]="{ height: '30px', 'border-radius': '6px', width: '120px' }"
+            label="Pending"
+            iconPos="right"
+            class="p-button-success"
+            (click)="changeLeaveStatusForApproval(LeaveStatuses.PENDING)"
+          ></button>
+        </div>
+        <div class="col col-md-3 col-lg-3 buttons-leave2">
+          <button
+            pButton
+            type="button"
+            [style]="{ height: '30px', 'border-radius': '6px', width: '120px' }"
+            [label]="isCEO ? 'Approved' : 'Recommended'"
+            iconPos="right"
+            class="p-button-success"
+            (click)="changeLeaveStatusForApproval(LeaveStatuses.APPROVED)"
+          ></button>
+        </div>
+        <div class="col col-md-3 col-lg-3 buttons-leave3">
+          <button
+            pButton
+            type="button"
+            [style]="{ height: '30px', 'border-radius': '6px', width: '120px' }"
+            label="Declined"
+            iconPos="right"
+            class="p-button-success"
+            (click)="changeLeaveStatusForApproval(LeaveStatuses.REJECT)"
+          ></button>
+        </div>
+        <div class="col col-md-3 col-lg-3 buttons-absence-work">
+          <button
+            pButton
+            type="button"
+            [style]="{ height: '30px', 'border-radius': '6px', width: '150px' }"
+            label="Absence of work"
+            (click)="opAbsenceOfWork.toggle($event)"
+          ></button>
+          <p-overlayPanel
+            #opAbsenceOfWork
+            [showCloseIcon]="true"
+            [dismissable]="false"
+            (onHide)="removeRequestLeave()"
+            [style]="{ width: '50vw', height: '25vh' }"
+          >
+            <ng-template pTemplate>
+              <form #absenceLeave="ngForm" (ngSubmit)="onSubmit(absenceLeave,opAbsenceOfWork,true)">
+                <div class="row">
+                  <div class="col-12 col-md-7 p-grid p-fluid  leave-form">
+                    <div>
+                      <h4>Absence of work</h4>
+                    </div>
+                    <div class="col-10">
+                      <div class="row">
+                        <div class="col-12 col-md-12">
+                          <label class="col-12 col-md-12" for="Leave Type"
+                            >Employee*</label
+                          >
+                          <p-dropdown
+                          [options]="userList"
+                          [(ngModel)]="employee"
+                          name ="employee"
+                          placeholder="Select an employee"
+                          optionLabel="first_name"
+                          [showClear]="false"
+                          (onChange)="getLeaveToLeaveTypeForApprove()"
+                          [required]="true"
+                        >
+                        </p-dropdown>
+                        </div>
+            
+                        <div class="col-12">
+                          <label class="col-12" for="start date">Start date & time*</label>
+                          <p-calendar
+                            name="leave_starting_date"
+                            [(ngModel)]="leave_starting_date"
+                            [showTime]="true"
+                            [showSeconds]="true"
+                            inputId="startTime"
+                            placeholder="Pick date and time"
+                            [required]="true"
+                          ></p-calendar>
+                        </div>
+                        <div class="col-12">
+                          <label class="col-12" for="end Date">End date & time*</label>
+                          <p-calendar
+                            name="leave_end_date"
+                            [(ngModel)]="leave_end_date"
+                            [showTime]="true"
+                            [showSeconds]="true"
+                            inputId="endTime"
+                            placeholder="Pick date and time"
+                            [required]="true"
+                          ></p-calendar>
+                        </div>
+                        
+                        <div class="field col-12 md:col-3">
+                          <label class="col-12" for="stacked">MDs for leave</label>
+                          <div  *ngIf="leave_type?.name !== 'Short leave'">
+                            <p-inputNumber
+                            name="man_days"
+                            [(ngModel)]="man_days"
+                            inputId="minmaxfraction"
+                            [showButtons]="true"
+                            mode="decimal"
+                            [minFractionDigits]="1"
+                            [maxFractionDigits]="5"
+                            [min]="0"
+                            [max]="14"
+                            [step]="0.5"
+                            [required]="true"
+                          >
+                          </p-inputNumber>
+            
+                          </div>
+                          <div *ngIf="leave_type?.name === 'Short leave'">
+                            <p-inputNumber
+                          name="man_days"
+                          [(ngModel)]="man_days"
+                          inputId="minmaxfraction"
+                          [showButtons]="true"
+                          mode="decimal"
+                          [minFractionDigits]="1"
+                          [maxFractionDigits]="5"
+                          [step]="0.0625"
+                          [min]="0"
+                          [max]="0.1875"
+                          [required]="true"
+                        >
+                      </p-inputNumber>
+                          </div>
+                          
+                          
+                      
+                        </div>
+                        <div class="col-12 col-md-12">
+                          <div class="row"><label>Reason*</label></div>
+                          <textarea
+                            name="reason"
+                            [rows]="5"
+                            [cols]="30"
+                            pInputTextarea
+                            [autoResize]="true"
+                            [(ngModel)]="reason"
+                            [required]="true"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div
+                    
+                    class="col-12 col-md-5 leave-details"
+                  >
+                
+                  
+                    <div *ngIf="man_days ">
+                      <h4>{{man_days}} MDs </h4>
+                      <h4>Unauthorized no-pay leave</h4>
+                    
+                    </div>
+                    <div>
+                      <button
+                        [disabled]="buttonDisabled"
+                        pButton
+                        type="submit"
+                        label="Request leave"
+                        class="p-button-success"
+                        (click)="showLeaveDetails()" 
+                      ></button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </form>
+            </ng-template>
+          </p-overlayPanel>
+        </div>
+      </div>
+      
+      <div>
+        <div class="row leave-table-info">
+          <div class="col-12 col-md-2">
+            <label class="label">Employees</label>
+          </div>
+          <div class="col-12 col-md-3" style="margin-right: 15%">
+            <p-dropdown
+              [options]="userList"
+              [style]="{ height: '25px' }"
+              [(ngModel)]="selectedUserforApproval"
+              placeholder="Select an employee"
+              optionLabel="first_name"
+              [showClear]="false"
+              (onChange)="getLeaveToLeaveTypeForApprove()"
+            >
+            </p-dropdown>
+          </div>
+          <div class="col-12 col-md-2">
+            <label class="label">Leave Types</label>
+          </div>
+          <div class="col-12 col-md-3">
+            <p-dropdown
+              [options]="leavetypes"
+              [style]="{ height: '25px' }"
+              [(ngModel)]="selectedLeaveTypeforApproval"
+              placeholder="Select a type"
+              optionLabel="name"
+              [showClear]="false"
+              (onChange)="getLeaveToLeaveTypeForApprove()"
+            >
+            </p-dropdown>
+          </div>
+          <div class="table-responsive mt-4 text-nowrap scrolling">
+            <table class="table">
+              <thead>
+                <tr class="text-center">
+                  <th>Applied on</th>
+                  <th>Name</th>
+                  <th>Leave Type</th>
+                  
+                  <th>Date needed</th>
+                  <th>period</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <tr *ngFor="let leave of requestedLeaveList; let index; as: i">
+                  <td>
+                    {{
+                      leave.createdOn
+                        ? (leave.createdOn.toString() | date : "dd-MM-yyyy ")
+                        : ""
+                    }}
+                  </td>
+                  <td>{{ leave.request_by.first_name }}</td>
+                  <td>{{ leave.leave_type.name }}</td>
+                 
+                  <td>
+                    {{
+                      leave.leave_starting_date
+                        ? (leave.leave_starting_date.toString()
+                          | date : "dd-MM-yyyy ")
+                        : ""
+                    }}
+                  </td>
+                  <td>{{ leave.man_days }}</td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary"
+                      (click)="selectMyLeave(leave,false);leaveDetail.toggle($event)"
+                    >
+                     {{changedLeaveStatusForAprroval==LeaveStatuses.PENDING?'Respond':'More'}} 
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-overlayPanel
+  #op
+  [showCloseIcon]="true"
+  [dismissable]="false"
+  (onHide)="removeRequestLeave()"
+  [style]="{ width: '50vw', height: '25vh' }"
+>
+  <ng-template pTemplate>
+    <form #userPost="ngForm" (ngSubmit)="onSubmit(userPost,op,false)">
+      <div class="row">
+        <div class="col-12 col-md-7 p-grid p-fluid  leave-form">
+          <div>
+            <h4>{{ isRequestMode ? "New Leave" : "Leave Details" }}</h4>
+          </div>
+          <div class="col-10">
+            <div class="row">
+              <div class="col-12 col-md-12">
+                <label class="col-12 col-md-12" for="Leave Type"
+                  >Leave Type*</label
+                >
+                <p-dropdown
+                  class="col-12 col-md-12"
+                  name="leave_type"
+                  [options]="leavetypesForRequest"
+                  [(ngModel)]="leave_type"
+                  placeholder="Select leave type"
+                  optionLabel="name"
+                  [showClear]="false"
+                  (onChange)="onChangeLeaveType()"
+                  [required]="true"
+                >
+                </p-dropdown>
+              </div>
+  
+              <div class="col-12">
+                <label class="col-12" for="start date">Start date & time*</label>
+                <p-calendar
+                  name="leave_starting_date"
+                  [(ngModel)]="leave_starting_date"
+                  [showTime]="true"
+                  [showSeconds]="true"
+                  inputId="startTime"
+                  placeholder="Pick date and time"
+                  [required]="true"
+                ></p-calendar>
+              </div>
+              <div class="col-12">
+                <label class="col-12" for="end Date">End date & time*</label>
+                <p-calendar
+                  name="leave_end_date"
+                  [(ngModel)]="leave_end_date"
+                  [showTime]="true"
+                  [showSeconds]="true"
+                  inputId="endTime"
+                  placeholder="Pick date and time"
+                  [required]="true"
+                ></p-calendar>
+              </div>
+              
+              <div class="field col-12 md:col-3">
+                <label class="col-12" for="stacked">MDs for leave</label>
+                <div  *ngIf="leave_type?.name !== 'Short leave'">
+                  <p-inputNumber
+                  name="man_days"
+                  [(ngModel)]="man_days"
+                  inputId="minmaxfraction"
+                  [showButtons]="true"
+                  mode="decimal"
+                  [minFractionDigits]="1"
+                  [maxFractionDigits]="5"
+                  [min]="0"
+                  [max]="14"
+                  [step]="0.5"
+                  [required]="true"
+                >
+                </p-inputNumber>
+  
+                </div>
+                <div *ngIf="leave_type?.name === 'Short leave'">
+                  <p-inputNumber
+                name="man_days"
+                [(ngModel)]="man_days"
+                inputId="minmaxfraction"
+                [showButtons]="true"
+                mode="decimal"
+                [minFractionDigits]="1"
+                [maxFractionDigits]="5"
+                [step]="0.0625"
+                [min]="0"
+                [max]="0.1875"
+                [required]="true"
+              >
+            </p-inputNumber>
+                </div>
+                
+                
+            
+              </div>
+              <div class="col-12 col-md-12">
+                <div class="row"><label>Reason*</label></div>
+                <textarea
+                  name="reason"
+                  [rows]="5"
+                  [cols]="30"
+                  pInputTextarea
+                  [autoResize]="true"
+                  [(ngModel)]="reason"
+                  [required]="true"
+                ></textarea>
+              </div>
+              <div class="col-6 col-md-8" >
+                <div >
+                  <label>Upload Document</label>
+                  
+                  <div >
+                    <app-file-uploader
+                    [rootUrl]="imageUrl"
+                    [data]="getLogo()"
+                    [multiple]="false"
+                    [deletable]="true"
+                    (onChangeFile)="onAddFile($event)"
+                    (onDeleteFile)="onRemoveFile($event)"
+                  >
+                  </app-file-uploader>
+                  </div>
+                  <p
+                  class="info-message text-danger"
+                  *ngIf="(leave_type?.name==='Medical leave' && man_days >1)||leave_type?.name==='Maternity leave'"
+                >
+                  You need to sumbit the document </p>
+                 
+                </div>
+      
+                <!-- <p
+                  class="info-message text-danger"
+                  *ngIf="!user.full_name && fData.submitted"
+                >
+                  This is a mandatory field
+                </p> -->
+              </div>
+             
+  
+              <!-- <div class="col-12 col-md-6">
+                      <label class="col-12 col-md-12" >Recommendation</label>
+                      <p-dropdown name="tl_respond_by" class="col-12 col-md-12" [options]="[]" [style]="{'height':'25px' }" [(ngModel)] ="tl_respond_by" 
+                          optionLabel="name" [showClear]="false">
+                      </p-dropdown>
+                  </div> -->
+              <!-- <div
+                *ngIf="leaveType === 'Approved by' && isRequestMode === false"
+                class="col-12 col-md-6"
+              >
+                <label>Status: </label>
+                Approved
+              </div>
+  
+              <div
+                *ngIf="leaveType === 'Approved by' && isRequestMode === false"
+                class="col-12 col-md-6 margin-leave"
+              >
+                <button
+                  pButton
+                 
+                  type="button"
+                  label="Employee leave summary"
+                  class="p-button-success"
+                  (click)="opSummary.toggle($event)"
+                ></button>
+              </div> -->
+            </div>
+          </div>
+          
+        </div>
+        <div
+          *ngIf="isRequestMode === true"
+          class="col-12 col-md-5 leave-details"
+        >
+       
+        
+          <div *ngIf="leave_type && man_days ">
+            <h4>{{man_days}} MDs {{leave_type.name}}</h4>
+            <p>Remaining {{leave_type.name}}s: {{remainingLeaveType}}</p>
+           
+          </div>
+          <div>
+            <button
+              [disabled]="buttonDisabled"
+              pButton
+              type="submit"
+              label="Request leave"
+              class="p-button-success"
+              (click)="showLeaveDetails()" 
+            ></button>
+          </div>
+        </div>
+        <div
+          *ngIf="isRequestMode === false"
+          class="col-12 col-md-4 leave-details"
+        >
+          <div>
+            <h4>1 Day casual leave</h4>
+            <p>Remaining casual leave: 4</p>
+          </div>
+          <div class="col-12 col-md-12">
+            <textarea
+              [rows]="5"
+              [cols]="23"
+              pInputTextarea
+              placeholder="comment"
+              [autoResize]="true"
+            ></textarea>
+          </div>
+          <div *ngIf="user == 'teamLead'" class="row">
+            <div class="col-6">
+              <button type="button" class="btn btn-outline-success">
+                Recommend
+              </button>
+            </div>
+            <div class="col-4">
+              <button
+                style="margin-left: 20%"
+                type="button"
+                class="btn btn-outline-danger"
+              >
+                Decline
+              </button>
+            </div>
+          </div>
+          <div *ngIf="user == 'CEO'" class="row">
+            <div class="col-6">
+              <button type="button" class="btn btn-outline-success">
+                approve
+              </button>
+            </div>
+            <div class="col-4">
+              <button
+                style="margin-left: 20%"
+                type="button"
+                class="btn btn-outline-danger"
+              >
+                Decline
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel
+  #opSummary
+  [showCloseIcon]="true"
+  [dismissable]="false"
+  [style]="{ width: '60vw', height: '40%' }"
+>
+  <ng-template pTemplate>
+    <div class="row">
+      <div class="col-12 leave-form">
+        <div>
+          <h4>Summary</h4>
+        </div>
+        <div class="col-12 col-md-12">
+          <table class="table table-borderless">
+            <thead class="text-center">
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Eligilble</th>
+                <th scope="col">Taken</th>
+                <th scope="col">Remaining</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+             
+              <tr>
+                <th scope="row">Annual leave</th>
+                <td>{{selectedUserLeaveSummary.annual_leaves}}</td>
+                <td>{{selectedUserLeaveSummary.annual_leaves- selectedUserLeaveSummary.rem_annual_leaves}}</td>
+                <td>{{selectedUserLeaveSummary.rem_annual_leaves}}</td>
+                
+              </tr>
+              <tr>
+                <th scope="row">Medical leave</th>
+                <td>{{selectedUserLeaveSummary.sick_leaves}}</td>
+                <td>{{selectedUserLeaveSummary.sick_leaves- selectedUserLeaveSummary.rem_sick_leaves}}</td>
+                <td>{{selectedUserLeaveSummary.rem_sick_leaves}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Casual leave</th>
+                <td>{{selectedUserLeaveSummary.casual_leaves}}</td>
+                <td>{{selectedUserLeaveSummary.casual_leaves-selectedUserLeaveSummary.rem_casual_leaves}}</td>
+                <td>{{selectedUserLeaveSummary.rem_casual_leaves}}</td>
+              </tr>
+              
+              <tr>
+                <th scope="row">Short leave</th>
+                <td>{{selectedUserLeaveSummary.short_leaves}}</td>
+                <td>{{selectedUserLeaveSummary.short_leaves- selectedUserLeaveSummary.rem_short_leaves}}</td>
+                <td>{{selectedUserLeaveSummary.rem_short_leaves}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- <div class="col-12 col-md-4 leave-details">
+        <div>
+          <h4>Recent Leaves </h4>
+          <div  *ngFor="let leave of requestedLeaveList; let index; as: i">{{index}}, {{leave.leave_type}}</div>
+        </div>
+      </div> -->
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel
+  #leaveDetail
+  [showCloseIcon]="true"
+  [style]="{ width: '60%' }"
+  [dismissable]="false"
+>
+  <ng-template pTemplate>
+    <div class="row">
+      <div [ngClass]="{'col-md-8 ': (loggedUserHigherGroup && !isView && changedLeaveStatusForAprroval==LeaveStatuses.PENDING)}" class="col-12 leave-detail-overlay">
+        <div>
+          <h4>{{ "Leave Details" }}</h4>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-md-12 mb-3">
+            <div class="row">
+              <div class="col-4">
+                <label for="Leave Type">Leave Type:</label>
+              </div>
+              <div class="col-8">
+                <input
+                
+                  type="text"
+                  pInputText
+                  [disabled]="true"
+                  [(ngModel)]="selectedLeave.leave_type.name"
+                />
+              </div>
+            </div>
+          </div>
+          <div *ngIf="selectedLeave.leave_type?.name===noPayUnauthorized"  class="col-12 col-md-12 mb-3">
+            <div class="row">
+              <div class="col-4">
+                <label for="Leave Type">No pay leave rquested by:</label>
+              </div>
+              <div class="col-8">
+                {{selectedLeave.no_pay_leave_request_by.first_name}}
+                <!-- <input
+                
+                  type="text"
+                  pInputText
+                  [disabled]="true"
+                  [(ngModel)]="selectedLeave.no_pay_leave_request_by"
+                /> -->
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-12 mb-3">
+            <div class="row">
+              <div class="col-4"><label>Start date & time:</label></div>
+              <div class="col-8">
+                <p>
+                  {{ selectedLeave.leave_starting_date+'' | date:'yyyy-MM-dd, h:mm a'}}
+                </p>
+                <!-- <input
+                style="width: 75%;"
+                  type="text"
+                  pInputText
+                  [disabled]="true"
+                  [(ngModel)]="selectedLeave.leave_starting_date"
+                /> -->
+              </div>
+            </div>
+          
+          </div>
+          <div class="col-12 mb-3">
+            <div class="row">
+              <div class="col-4"><label>End date & time:</label></div>
+              <div class="col-8">
+                {{ selectedLeave.leave_end_date+'' | date:'yyyy-MM-dd, h:mm a'}}
+                <!-- <input
+                   style="width: 75%;"
+                  type="text"
+                  pInputText
+                  [disabled]="true"
+                  [(ngModel)]="selectedLeave.leave_end_date"
+                /> -->
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mb-3">
+            <div class="row">
+              <div class="col-4"><label>MDs for leave:</label></div>
+              <div class="col-8">
+                <input
+                 
+                  type="text"
+                  pInputText
+                  [disabled]="true"
+                  [(ngModel)]="selectedLeave.man_days"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mb-3">
+            <div class="row">
+              <div class="col-4"><label>Reason:</label></div>
+              <div class="col-8">
+                <textarea
+                  name="reason"
+                  [rows]="5"
+                  [cols]="30"
+                  [disabled]="true"
+                  pInputTextarea
+                  [autoResize]="true"
+                  [(ngModel)]="selectedLeave.reason"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mb-3">
+            <div class="row">
+                <div class="col-4">
+                  <label for="Leave Type">Approval:</label>
+                </div>
+                <div class="col-8">
+                  <input
+                  
+                    type="text"
+                    pInputText
+                    [disabled]="true"
+                    [(ngModel)]="selectedLeave.final__state.name"
+                  />
+                </div>
+              </div>
+          </div>
+          <div *ngIf="selectedLeave.final__state.value!=LeaveStatuses.PENDING" class="col-12 mb-3">
+            <div class="row">
+                <div class="col-4">
+                  <label for="Leave Type">{{(selectedLeave.final__state.value==LeaveStatuses.APPROVED?'Approved':'Rejected') +' By:'}}</label>
+                </div>
+                <div class="col-8">
+                  <input
+                  
+                    type="text"
+                    pInputText
+                    [disabled]="true"
+                    [(ngModel)]="selectedLeave.final_respond_by.first_name
+                    "
+                  />
+                </div>
+              </div>
+          </div>
+          <div *ngIf="selectedLeave.final__state.value!=LeaveStatuses.PENDING" class="col-12 mb-3">
+            <div class="row">
+                <div class="col-4"><label>CEO feedback:</label></div>
+                <div class="col-8">
+                  <textarea
+                    name="reason"
+                    [rows]="5"
+                    [cols]="30"
+                    [disabled]="true"
+                    pInputTextarea
+                    [autoResize]="true"
+                    [(ngModel)]="selectedLeave.final_state_feedback
+                    "
+                  ></textarea>
+                </div>
+              </div>
+          </div>
+          <div class="col-12 mb-3">
+            <div class="row">
+                <div class="col-4">
+                  <label for="Leave Type">HOD Recommendation:</label>
+                </div>
+                <div class="col-8">
+                  <input
+                  
+                    type="text"
+                    pInputText
+                    [disabled]="true"
+                    [(ngModel)]="selectedLeave.hod_recommendation_state.name"
+                  />
+                </div>
+              </div>
+          </div>
+          <div *ngIf="selectedLeave.hod_recommendation_state.value!=LeaveStatuses.PENDING" class="col-12 mb-3">
+            <div class="row">
+                <div class="col-4">
+                  <label for="Leave Type">{{'HOD' + (selectedLeave.hod_recommendation_state.value==LeaveStatuses.APPROVED?'Recommended':'Rejected') +' By:'}}</label>
+                </div>
+                <div class="col-8">
+                  <input
+                  
+                    type="text"
+                    pInputText
+                    [disabled]="true"
+                    [(ngModel)]="selectedLeave.hod_respond_by.first_name"
+                  />
+                </div>
+              </div>
+          </div>
+          <div *ngIf="selectedLeave.hod_recommendation_state.value!=LeaveStatuses.PENDING" class="col-12 mb-3">
+            <div class="row">
+                <div class="col-4"><label>HOD feedback:</label></div>
+                <div class="col-8">
+                  <textarea
+                    name="reason"
+                    [rows]="5"
+                    [cols]="30"
+                    [disabled]="true"
+                    pInputTextarea
+                    [autoResize]="true"
+                    [(ngModel)]="selectedLeave.hod_recommendation_feedback
+                    "
+                  ></textarea>
+                </div>
+              </div>
+          </div>
+          <div *ngIf="selectedLeave.leave_type.name!==target" class="col-12 mb-3">
+            <div class="row">
+                <div class="col-4">
+                  <label for="Leave Type">TL Recommendation</label>
+                </div>
+                <div class="col-8">
+                  <input
+                  
+                    type="text"
+                    pInputText
+                    [disabled]="true"
+                    [(ngModel)]="selectedLeave.tl_recommendation_state.name"
+                  />
+                </div>
+              </div>
+          </div>
+          <div class="col-12 mb-3">
+            <div *ngIf="selectedLeave?.doc_url" class="row">
+                <div class="col-4">
+                  <label for="Leave Type">Document submitted</label>
+                </div>
+                <div  class="col-8">
+                  <!-- <img style="max-width:50vw;max-height: 20vh;" [src]="selectedLeave.doc_url" /> -->
+                  <!-- <a  href="{{baseURL}}/applyform/downloadDocument/attachment/{{ item.id}}"></a> -->
+                  <a  href="{{selectedLeave.doc_url}}">Click here</a>
+                </div>
+              </div>
+          </div>
+          <div *ngIf="selectedLeave.tl_recommendation_state.value!=LeaveStatuses.PENDING" class="col-12 mb-3">
+            <div class="row">
+                <div class="col-4">
+                  <label for="Leave Type">{{'TL' + (selectedLeave.tl_recommendation_state.value==LeaveStatuses.APPROVED?'Recommended':'Rejected') +' By:'}}</label>
+                </div>
+                <div class="col-8">
+                  <input
+                  
+                    type="text"
+                    pInputText
+                    [disabled]="true"
+                    [(ngModel)]="selectedLeave.tl_respond_by.first_name"
+                  />
+                </div>
+              </div>
+          </div>
+          <div *ngIf="selectedLeave.tl_recommendation_state.value!=LeaveStatuses.PENDING" class="col-12 mb-3">
+            <div class="row">
+                <div class="col-4"><label>TL feedback:</label></div>
+                <div class="col-8">
+                  <textarea
+                    name="reason"
+                    [rows]="5"
+                    [cols]="30"
+                    [disabled]="true"
+                    pInputTextarea
+                    [autoResize]="true"
+                    [(ngModel)]="selectedLeave.tl_recommendation_feedback"
+                  ></textarea>
+                </div>
+              </div>
+          </div>
+
+          
+          <div
+          
+          class="col-12 col-md-6 margin-leave"
+        >
+          <button
+            pButton
+           
+            type="button"
+            label="Employee leave summary"
+            class="p-button-success"
+            (click)="opSummary.toggle($event);selectedEmployerSumary(selectedLeave.request_by.id)"
+          ></button>
+        </div> 
+        
+        
+         
+
+        </div>
+      </div>
+ 
+      <div
+        *ngIf="loggedUserHigherGroup && !isView && changedLeaveStatusForAprroval==LeaveStatuses.PENDING"
+        class="col-12 col-md-4 leave-details"
+      >
+        <div class="col-12 col-md-12">
+          <textarea
+            [rows]="5"
+            
+            pInputTextarea
+            placeholder="comment"
+            [autoResize]="true"
+            [(ngModel)]="feedbcak"
+          ></textarea>
+        </div>
+        <div  class="row">
+          <div class="col-6">
+            <button (click)="isChangeLeaveStatus(LeaveStatuses.APPROVED,leaveDetail)" type="button" class="btn btn-outline-success">
+             {{loggedUserHigherGroup == GroupName.CEO? 'Approve':'Recommend'}}
+            </button>
+          </div>
+          <div class="col-4">
+            <button (click)="isChangeLeaveStatus(LeaveStatuses.REJECT,leaveDetail)"
+              style="margin-left: 20%"
+              type="button"
+              class="btn btn-outline-danger"
+            >
+              Decline
+            </button>
+          </div>
+        </div>
+       
+      </div>
+    
+    </div>
+  </ng-template>
+</p-overlayPanel>
+

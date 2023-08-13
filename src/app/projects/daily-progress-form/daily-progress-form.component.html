@@ -1,0 +1,132 @@
+
+
+<form #fData="ngForm" (ngSubmit)="save(fData)">
+
+
+    <div class="card mt-3">
+        <div class="p-grid p-fluid col-sm-12">
+
+
+            <div class="row p-2">
+
+                <div class="col-12 col-md-3">
+                    <div class="p-field">
+                        <label for="institute">Estimated MDs</label>
+                        <input type="number" maxlength="50" [(ngModel)]="planned_MD" [disabled]="true"
+                            placeholder="Enter Code Name" name="planned_MD" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="p-field">
+                        <label for="institute">Actual MDs </label>
+                        <input type="number" maxlength="50" [(ngModel)]="actual_MD" [disabled]="true"
+                            placeholder="Enter Code Name" name="actual_MD" field="contatname" class="p-inputtext" required />
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="p-field">
+                        <label for="institute">Date </label>
+                        <p-calendar name="planned_end_date" [(ngModel)]="date" appendTo="body" [disabled]="true">
+                        </p-calendar>
+
+<!-- 
+                        <p class="info-message text-danger" *ngIf="!activityAttend.spent_MD && (fData.submitted)">
+                            This is a mandatory field
+                        </p> -->
+                    </div>
+                </div>
+
+          
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="p-grid p-fluid col-sm-12">
+
+
+            <div class="row p-2">
+
+                <div class="col-12 col-md-3">
+                    <div class="p-field">
+                        <label for="institute">Progress % *</label>
+
+                            <p-inputNumber name="daily_progress" [(ngModel)]="activityAttend.daily_progress"
+                            inputId="minmaxfraction" [showButtons]="true" mode="decimal"
+                            [minFractionDigits]="1" [maxFractionDigits]="3" [min]="progress"
+                            [max]="100"  [required]="true">
+                            </p-inputNumber>
+                        <p class="info-message text-danger" *ngIf="!activityAttend.daily_progress && (fData.submitted)">
+                            This is a mandatory field
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3">
+                    <div class="p-field">
+                        <label for="institute">Spent MDs * </label>
+        
+                        <p-inputNumber name="spent_MD" [(ngModel)]="activityAttend.spent_MD"
+                        inputId="minmaxfraction" [showButtons]="true" mode="decimal"
+                        [minFractionDigits]="1" [maxFractionDigits]="5" [min]="0.001"
+                        [max]="14"  [required]="true">
+                       </p-inputNumber>
+                        <p class="info-message text-danger" *ngIf="!activityAttend.spent_MD && (fData.submitted)">
+                            This is a mandatory field
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="p-field">
+                        <label for="institute">Comment *(max:2000) </label>
+                        <!-- <input type="text" maxlength="50" [(ngModel)]="activityAttend.comment"
+                            placeholder="Enter Comment" name="comment" field="contatname" class="p-inputtext" required /> -->
+
+
+                            <div class="p-field px-2 pb-2">
+                                <div class="row">
+                                  <textarea
+                                    name="qulification"
+                                    [rows]="5"
+                                    [cols]="30"
+                                    pInputTextarea
+                                    placeholder="Enter Description"
+                                    [(ngModel)]="activityAttend.comment"
+                                    required
+                                  ></textarea>
+                                </div>
+                
+                                
+                              </div>
+
+                        <p class="info-message text-danger" *ngIf="!activityAttend.comment&& (fData.submitted)">
+                            This is a mandatory field
+                        </p>
+                    </div>
+                </div>
+
+          
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card mt-3">
+
+        <div class="row p-2">
+            <div class="col-12 col-md-6">
+                <button type="submit" class="align-self-end btn btn-md btn-block btn-primary"
+                    style="margin-top: auto;">Save</button>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</form>

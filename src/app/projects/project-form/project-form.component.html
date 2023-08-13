@@ -1,0 +1,522 @@
+
+
+<div class="container pl-16 pr-16">
+    <h4 class="mt-5">Project {{ isImport ? "Add By Importing Existing ":isNewEntry ? "Add" : isView ? "View": "Edit" }} </h4>
+
+    <form #fData="ngForm" (ngSubmit)="saveForm(fData)">
+
+        <div class="card mt-3">
+            <div class="p-grid p-fluid col-sm-12">
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="institute">Name</label>
+                            <input type="text" maxlength="50" placeholder="Enter Name" name="name" field="contatname"
+                                [(ngModel)]="project.name" class="p-inputtext" required />
+
+                            <p class="info-message text-danger" *ngIf=" !project.name &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="contatname">Code*</label>
+                            <input type="text" maxlength="50" placeholder="Enter Code" name="code" field="contatname"
+                                [(ngModel)]="project.project_code" class="p-inputtext" required />
+
+                            <p class="info-message text-danger" *ngIf=" !project.project_code &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="institute">Start Date</label>
+                            <p-calendar name="sdate" [(ngModel)]="dateValue" appendTo="body" dateFormat="dd/mm/yy">
+                            </p-calendar>
+                            <p clapss="info-message text-danger" *ngIf="!dateValue &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="institute">End Date</label>
+                            <p-calendar name="edate" [(ngModel)]="endDateValue" appendTo="body" dateFormat="dd/mm/yy">
+                            </p-calendar>
+                            <p clapss="info-message text-danger" *ngIf="!endDateValue &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="contatname">Project MDs*</label>
+                            <!-- <input type="number" maxlength="50" [(ngModel)]="project.duration" project.planned_budget
+                                placeholder="Enter Duration in MDs" name="duration" field="contatname"
+                                class="p-inputtext" required /> -->
+
+
+                            <p-inputNumber [required]="true" [(ngModel)]="project.duration" inputId="MD"
+                                [required]="true" suffix=" MD" placeholder="Enter Duration" name="duration">
+                            </p-inputNumber>
+
+                            <p class="info-message text-danger" *ngIf="!project.duration &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="institute">Planned Budget</label>
+                            <!-- <input type="number" maxlength="50" [(ngModel)]="project.planned_budget"
+                                placeholder="Enter Planned Budget in LKR " name="planned_budget" field="contatname"
+                                class="p-inputtext" required /> -->
+
+                            <p-inputNumber  [(ngModel)]="project.planned_budget" inputId="LKR"
+                                 suffix=" LKR" placeholder="Enter Planned Budget"
+                                name="planned_budget"> </p-inputNumber>
+
+
+                            <!-- <p class="info-message text-danger" *ngIf="!project.planned_budget &&(fData.submitted)">
+                                This is a mandatory field
+                            </p> -->
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="contatname">Description* (max 2000)</label>
+                            <!-- <input type="text" maxlength="50" [(ngModel)]="project.project_discription"
+                                placeholder="Enter Description" name="description" field="contatname"
+                                class="p-inputtext" required /> -->
+
+                                <div class="p-field px-2 pb-2">
+                                    <div class="row">
+                                      <textarea
+                                        name="qulification"
+                                        [rows]="5"
+                                        [cols]="30"
+                                        pInputTextarea
+                                        placeholder="Enter Description"
+                                        [(ngModel)]="project.project_discription"
+                                      ></textarea>
+                                    </div>
+                    
+                                    
+                                  </div>
+                            <!-- <p class="info-message text-danger"
+                                *ngIf="!project.project_discription &&(fData.submitted)">
+                                This is a mandatory field
+                            </p> -->
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+
+        </div>
+
+        <div class="card mt-3">
+            <div class="p-grid p-fluid col-sm-12">
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="unitlogo">Logo</label>
+                            <app-file-uploader *ngIf="project.id" [rootUrl]="imageUrl" [data]="getLogo()"
+                                [multiple]="false" [deletable]="true" (onChangeFile)="onAddFile($event)"
+                                (onDeleteFile)="onRemoveFile($event)"></app-file-uploader>
+                            <app-file-uploader *ngIf="!project.id" [multiple]="false" [deletable]="true"
+                                (onChangeFile)="onAddFile($event)" (onDeleteFile)="onRemoveFile($event)">
+                            </app-file-uploader>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--sponser-->
+        <div class="card mt-3">
+            <div class="p-grid p-fluid col-sm-12">
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="sponsor">Sponsor</label>
+                            <input type="text" maxlength="50" [(ngModel)]="project.sponsor"
+                                placeholder="Enter Sponsor Name" name="sponser" field="sponser" class="p-inputtext"
+                                required />
+
+                            <p class="info-message text-danger" *ngIf="!project.sponsor &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="sponsortimezone">Sponser Time Zone</label>
+                            <p-dropdown [(ngModel)]="project.sponsor_time_zone" [required]="true" [showClear]="true"
+                                [filter]="true" [options]="timeZones" name="sponsor_time_zone"
+                                placeholder="Select Time Zone" optionLabel="name" optionValue="value" appendTo="body">
+                            </p-dropdown>
+
+                            <p class="info-message text-danger" *ngIf="!project.sponsor_time_zone &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="sponsorcname">Sponser Contact Name</label>
+                            <input type="text" maxlength="50" [(ngModel)]="project.sponsor_contact_name"
+                                placeholder="Enter Sponser Contact Name" name="sponsor_contact_name" field="contatname"
+                                class="p-inputtext" required />
+
+                            <p class="info-message text-danger"
+                                *ngIf="!project.sponsor_contact_name &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="sponsorcname">Sponser Contact Email</label>
+                            <input type="email" pattern="[\w-\.]+@([\w-]+\.)+[\w-]{1,20}$" maxlength="50"
+                                [(ngModel)]="project.sponsor_contact_email" #fscemail="ngModel"
+                                placeholder="Enter Sponser Contact Email" name="sponsor_contact_email"
+                                field="contatname" class="p-inputtext"  />
+
+                            <!-- <p class="info-message text-danger"
+                                *ngIf="(!project.client_contact_email &&(fData.submitted))">
+                                This is a mandatory field
+                            </p> -->
+
+                            <p class="info-message text-danger" *ngIf=" (fscemail.invalid && fData.submitted)">
+                                Invalid email address
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="institute">Sponser Contact Phone</label>
+                            <p-inputMask type="text" name="sponsor_contact_phone" mask="+99 99-999-9999"
+                                [autoClear]="false" name="client_contact_phone" 
+                                placeholder="+99 999 999-9999" [(ngModel)]="project.sponsor_contact_phone"
+                                #ftelephone="ngModel" [styleClass]="'form-control'">
+                            </p-inputMask>
+
+                            <!-- <p class="info-message text-danger"
+                                *ngIf="!project.sponsor_contact_phone &&(fData.submitted)">
+                                This is a mandatory field
+                            </p> -->
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="unitlogo">Sponsor Logo</label>
+                            <app-file-uploader *ngIf="project.id" [rootUrl]="imageUrl" 
+                                [multiple]="false" [deletable]="true" (onChangeFile)="onAddFile($event)"
+                                (onDeleteFile)="onRemoveFile($event)">
+                            </app-file-uploader>
+                            <app-file-uploader *ngIf="!project.id" [multiple]="false" [deletable]="true"
+                                (onChangeFile)="onAddFile($event)" (onDeleteFile)="onRemoveFile($event)">
+                            </app-file-uploader>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <!--Client-->
+        <div class="card mt-3">
+            <div class="p-grid p-fluid col-sm-12">
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="client">Client</label>
+                            <input type="text" maxlength="50" [(ngModel)]="project.client"
+                                placeholder="Enter Client Name" name="client" field="contatname" class="p-inputtext"
+                                required />
+
+                            <p class="info-message text-danger" *ngIf="!project.client &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="ccountry">Client Country</label>
+                            <input type="text" maxlength="50" [(ngModel)]="project.client_country"
+                                placeholder="Enter Client Country" name="client_country" field="contatname"
+                                class="p-inputtext" required />
+                            <p class="info-message text-danger" *ngIf="!project.client_country &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="ctimezone">Client Time Zone</label>
+                            <p-dropdown [(ngModel)]="project.client_time_zone" [required]="true" [showClear]="true"
+                                [filter]="true" [options]="timeZones" name="client_time_zone"
+                                placeholder="Select Time Zone" optionLabel="name" optionValue="value" appendTo="body">
+                            </p-dropdown>
+
+                            <p class="info-message text-danger" *ngIf="!project.client_time_zone &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="ccontactname">Client Contact Name</label>
+                            <input type="text" maxlength="50" [(ngModel)]="project.client_contact_name"
+                                placeholder="Enter Client Contact Name" name="client_contact_name" field="contatname"
+                                class="p-inputtext" required />
+                            <p class="info-message text-danger"
+                                *ngIf="!project.client_contact_name &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="ccname">Client Contact Email</label>
+                            <input type="email" pattern="[\w-\.]+@([\w-]+\.)+[\w-]{1,20}$" maxlength="50"
+                                [(ngModel)]="project.client_contact_email" #femail="ngModel"
+                                placeholder="Enter Client Contact Email" name="client_contact_email" field="contatname"
+                                class="p-inputtext" />
+
+                            <!-- <p class="info-message text-danger"
+                                *ngIf="(!project.client_contact_email &&(fData.submitted))">
+                                This is a mandatory field
+                            </p> -->
+
+                            <p class="info-message text-danger" *ngIf=" (femail.invalid && fData.submitted)">
+                                Invalid email address
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="contatname">Client Contact Phone*</label>
+                            <p-inputMask type="text" mask="+99 99-999-9999" [autoClear]="false"
+                                name="client_contact_phone"  placeholder="+99 999 999-9999"
+                                [(ngModel)]="project.client_contact_phone" #ftelephone="ngModel"
+                                [styleClass]="'form-control'">
+                            </p-inputMask>
+                            <!-- <p class="info-message text-danger"
+                                *ngIf="!project.client_contact_phone &&(fData.submitted)">
+                                This is a mandatory field
+                            </p> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="ccp">Client Contact Position</label>
+                            <input type="text" maxlength="50" [(ngModel)]="project.client_contact_position"
+                                placeholder="Enter Client Contact Position" name="client_contact_position"
+                                field="contatname" class="p-inputtext" required />
+
+                            <p class="info-message text-danger"
+                                *ngIf="!project.client_contact_position &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="cco">Client Contact Organization*</label>
+                            <input type="text" maxlength="50" [(ngModel)]="project.client_contact_organization"
+                                placeholder="Enter Client Contact Organization" name="client_contact_organization"
+                                field="contatname" class="p-inputtext" required />
+                            <p class="info-message text-danger"
+                                *ngIf="!project.client_contact_organization &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--lead-->
+        <div class="card mt-3">
+            <div class="p-grid p-fluid col-sm-12">
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="projlead">Project Lead</label>
+
+                            <p-dropdown [(ngModel)]="project.project_lead" [showClear]="true" [required]="true"
+                                [filter]="true" [options]="employees" name="project_lead"
+                                placeholder="Select Project Lead" optionLabel="first_name" appendTo="body">
+                            </p-dropdown>
+
+                            <p class="info-message text-danger" *ngIf="!project.project_lead &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <label for="contatname">Team Lead</label>
+                            <p-multiSelect name="selectedLeads" [disabled]="isView" #fLead="ngModel" [required]="true"
+                                placeholder="Select Team Leads" appendTo="body" [options]="employees" [showClear]="true"
+                                [filter]="true" [(ngModel)]="p_teamLeads" optionLabel="first_name">
+                            </p-multiSelect>
+
+                            <p class="info-message text-danger" *ngIf="!project.teamLeads &&(fData.submitted)">
+                                This is a mandatory field
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- <div class="card mt-3">
+            <div class="p-grid p-fluid col-sm-12">
+            </div>
+            <h5>Activities</h5>
+            <div class="col-sm-1">
+                <p-button styleClass="p-button-sm" label="Add New" (click)="newActivity()" clistyle="width:30px;">
+                </p-button>
+            </div>
+            <div class="p-grid" style="display: flex;flex-wrap: wrap; margin: 5px;" *ngIf="activites.length > 0">
+                <div class="p-col" *ngFor="let activity of activites">
+                    <p-toolbar [style]="{'margin':'1em' ,background: '#EAFAF1' } ">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="p-toolbar-group-start">
+                                    Activity Test
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <p-button *ngIf="viewable" (click)="edit(activity.id)" icon="pi pi-pencil"></p-button>
+                                <p-button icon="pi pi-times" styleClass="p-button-success"></p-button>
+
+                            </div>
+                        </div>
+                    </p-toolbar>
+
+                </div>
+            </div>
+        </div> -->
+
+        <div class="card mt-3" *ngIf="userRole =='CEO'">
+            <button [disabled]="isView" type="submit" class="align-self-end btn btn-md btn-block btn-primary"
+                style="margin-top: auto;">Submit</button>
+        </div>
+
+
+
+        <div class="card mt-3" *ngIf="activityVisble">
+            <div class="p-grid p-fluid col-sm-12">
+
+                <div class="row p-2">
+                    <div class="col-12 col-md-3" *ngIf="userRole == 'CEO' || isTeamLead">
+                        <div class="p-field">
+                            <button label="ADD ROOT ACTIVITY" [disabled]="isView" type="button" (click)="new(null)"
+                                pButton></button>
+                            
+
+                        </div>
+                        
+                    </div>
+                    <div class="col-12 col-md-3" *ngIf="userRole == 'CEO'">
+                        <div class="p-field">
+                            <button label="ACTIVITIES IMPORT FROM EXISTING" [disabled]="isView || !isImport" type="button" (click)="import(null)"
+                                pButton></button>
+                            
+
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="p-field">
+                            <p-dropdown name="selectActivity" [options]="parentActivities" [(ngModel)]="selectActivity"
+                                #fOwnership="ngModel" (onChange)="onChangeActivity()" placeholder="Select Main Activity"
+                                optionLabel="name" appendTo="body">
+                            </p-dropdown>
+                            <!-- <p class="info-message text-danger" *ngIf="!s_team_leads &&(fData.submitted)">
+                                This is a mandatory field
+                            </p> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card mt-3" *ngIf="activityVisble">
+            <div class="p-grid p-fluid col-sm-12">
+                <!-- <p-tree [value]="nodes" layout="horizontal" (onNodeSelect)="nodeSelect($event)" selectionMode="single">
+                </p-tree> -->
+
+                <p-tree [value]="nodes" layout="horizontal" selectionMode="single"
+                *ngIf="userRole !== 'CEO' && !isTeamLead ; else userViewTemplate">
+                </p-tree>
+     
+                <ng-template #userViewTemplate>
+                    <p-tree [value]="nodes" layout="horizontal" (onNodeSelect)="nodeSelect($event)"
+                        selectionMode="single" *ngIf="!isView ; else wViewTemplate">
+                    </p-tree>
+                </ng-template>
+                <ng-template #wViewTemplate>
+                    <p-tree [value]="nodes" layout="horizontal" selectionMode="single">
+                    </p-tree>
+                </ng-template>
+
+            </div>
+        </div>
+
+    </form>
+</div>

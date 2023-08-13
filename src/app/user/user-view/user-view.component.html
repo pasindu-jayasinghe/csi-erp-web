@@ -1,0 +1,388 @@
+<div>
+    <div class="container margin-leaves">
+      <!-- top -->
+      <div class="row">
+        <div class="col-12 col-md-8">
+          <h1 class="leaves-top-title">My details</h1>
+        </div>
+      </div>
+    </div>
+    <!-- cards -->
+    <div class="container px-4">
+      
+        <div class="card mt-3">
+          <div class="p-grid p-fluid col-sm-12">
+            <div class="row">
+              <div class="col-7">
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Full Name</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.full_name }}
+                        </p>
+                    
+                    </div>
+                  </div>
+  
+                
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>First Name</label>
+                    </div>
+                    <div class="col-9">
+
+                        <p>
+                            {{user.first_name}}
+                        </p>
+                    
+                    </div>
+                  </div>
+  
+                
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Last Name</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.last_name}}
+                        </p>
+                  
+                    </div>
+                  </div>
+  
+                
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Email</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.email}}
+                        </p>
+                   
+                    </div>
+                  </div>
+  
+                 
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Code</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.code}}
+                        </p>
+                 
+                    </div>
+                  </div>
+  
+                
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Type of Employee</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.employee_types}}
+                        </p>
+                    </div>
+                  </div>
+  
+               
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Department</label>
+                    </div>
+                    <div class="col-9">
+                        <p *ngFor="let group of user.groupUser">
+                            {{group.group.name}}
+                        </p>
+                    </div>
+                  </div>
+  
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Position</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.role.name}}
+                        </p>
+                    </div>
+                  </div>
+  
+                  
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Gender</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.gender}}
+                        </p>
+                    </div>
+                  </div>
+  
+                
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Maritial status</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.maritial_status}}
+                        </p>
+                    </div>
+                  </div>
+  
+                  
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Date of Birth</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.bOD?(user.bOD.toString() | date:'dd-MM-yyyy'):''}}
+                        </p>
+                    </div>
+                  </div>
+  
+               
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Join Date</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.starting_date?(user.starting_date.toString() | date:'dd-MM-yyyy '):''}}
+                        </p>
+                    </div>
+                  </div>
+  
+                
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Home town</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.home_town}}
+                        </p>
+                    </div>
+                  </div>
+  
+          
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Phone Number</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.phone_number}}
+                        </p> 
+                   
+                    </div>
+                  </div>
+  
+               
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Emergancy contact number</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.emergency_phone_number}}
+                        </p> 
+                    
+                    </div>
+                  </div>
+  
+                 
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Emergancy contact relation</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.emergency_contact_relation}}
+                        </p> 
+                    
+                    </div>
+                  </div>
+  
+               
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>EPF number</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.eFP_number}}
+                        </p> 
+                   
+                    </div>
+                  </div>
+  
+                
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Spouse</label>
+                    </div>
+                    <div class="col-9">
+                        <p>
+                            {{user.spouse_name}}
+                        </p> 
+                    
+                    </div>
+                  </div>
+  
+                
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <div class="col-3">
+                      <label>Qulification</label>
+                    </div>
+                    <div class="col-9">
+                      
+                      <textarea
+                      [disabled]="true"
+                        name="qulification"
+                        [rows]="5"
+                        [cols]="30"
+                        pInputTextarea
+                        [autoResize]="true"
+                        [(ngModel)]="user.qulification"
+                      ></textarea>
+                    </div>
+                  </div>
+  
+                
+                </div>
+              </div>
+              <div class="col-5">
+                <div class="p-field px-2 pb-4">
+                  <div class="row">
+                    <label>Upload Logo</label>
+                    <img style="width:100%;max-height: 50vh;"  [src]="user.logo_url">
+                 
+                  </div>
+  
+                
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <label>National Identity Card number</label>
+                    <p>
+                        {{user.nIC_number}}
+                    </p> 
+                  
+                  </div>
+  
+             
+                </div>
+                <div class="p-field px-2 pb-2">
+                  <div class="row">
+                    <label>Adress</label>
+                   
+                    <textarea
+                    [disabled]="true"
+                      name="qulification"
+                      [rows]="5"
+                      [cols]="30"
+                      pInputTextarea
+                      [autoResize]="true"
+                      [(ngModel)]="user.adress"
+                    ></textarea>
+                  </div>
+  
+               
+                </div>
+  
+                <div class="p-field px-2 pb-2">
+                    
+                  <div class="row">
+                    <div
+                    class="col-md-4 d-flex flex-row-reverse leaves-top-button"
+                  >
+                 
+                    <button
+                    [disabled]="disablePasswordButton"
+                      pButton
+                      type="button"
+                      label=" new Password"
+                      class="p-button-success"
+                      (click)="changePasword()"
+                    ></button>
+                  </div>
+                    <div *ngIf="isShowBack"
+                      class="col-md-4 d-flex flex-row-reverse leaves-top-button"
+                    >
+                      <button
+                        pButton
+                        type="back"
+                        label="back"
+                        style="background-color: dimgray !important"
+                        class="p-button-success"
+                        (click)="back()"
+                      ></button>
+                    </div>
+  
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+     
+    </div>
+  </div>
+  
+  <p-dialog header="Your New Password is" [(visible)]="visibleDialog" position="right" [style]="{width: '50vw'}">
+    <div style="text-align: center;">
+        <p style="font-size: 24px;">
+           {{newPassword}}
+         
+        </p>
+    </div>
+  
+</p-dialog>
